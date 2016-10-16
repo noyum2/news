@@ -8,8 +8,12 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
+
+import org.hamcrest.core.IsNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -23,6 +27,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+
+import com.newstracer.VO.News;
 
 /**
  * Handles requests for the application home page.
@@ -51,7 +57,7 @@ public class HomeController {
 
 	//서비스로 갈것
 	@RequestMapping("/news1")
-	public String news1() throws IOException {
+	public String news1(Model model) throws IOException {
 		System.out.println("==== 검색 API 호출====");
 		String clientId = "Z2_N6rKLP8h1DbAAR2nD";
 		String clientSecret = "ZCJX2BLqPw";
@@ -76,17 +82,21 @@ public class HomeController {
 				}
 				in.close();
 				String res = response.toString().replaceAll(">", ">\n");
-			//	System.out.println(res);
+				//		System.out.println(res);
 
 				Document xmlDoc = Jsoup.parse(response.toString(), "", Parser.xmlParser());
 				Elements links = xmlDoc.select("link");
-				
-				//System.out.println("<Link Parsing.....>\n\n");
-				for (int i = 0; i < links.size(); i++)
-					System.out.println(links.get(i).text());
-				Crawling(links.get(1).text());
-				Crawling(links.get(2).text());
-				Crawling(links.get(3).text());
+
+				System.out.println("<Link Parsing.....>\n\n");
+				List<News> newses = new ArrayList<News>();
+				for (int i = 1; i < links.size(); i++)
+				{
+					News news = Crawling(links.get(i).text());
+					if(news!=null)
+						if(news.getNewsContent()!="")
+							newses.add(news);
+				}
+				model.addAttribute("newsList", newses);
 			} else {
 				System.out.println("API 호출 에러 발생 : 에러코드=" + responseCode);
 			}
@@ -95,41 +105,34 @@ public class HomeController {
 		}
 		return "aa";
 	}
-	//서비스로 갈것
-	private void Crawling(String urlstr) {
-		try {
-			//example.com은 연습으로 사용하기 위한 페이지이다. 간단한 페이지로 소스코드의 양도 적다.
-			//URL 문자열을 처리하기 위해 URL클래스를 이용한다.
-			URL url = new URL(urlstr);
-			//소스코드를 가져오기 위한 스트림을 선언한다.
-			BufferedReader bf;
-			String line;
-			StringBuffer s = new StringBuffer();
 
-			//URL클래스의 openStream()함수로 지정한 웹주소의 소스코드를 받아올 수 있다.
-			bf = new BufferedReader(new InputStreamReader(url.openStream()));
-			while ((line = bf.readLine()) != null) {
-				s.append(line+"\n");
-			}
-			//스트림을 닫아준다.
-			bf.close();
-		//	System.out.println(s.toString());
+	//서비스로 갈것
+	private News Crawling(String urlstr) {
+		News news = new News();
+		try {
 			Document doc = Jsoup.connect(urlstr).get();
 			Elements title = doc.select("meta[property~=(?i).*title.*]");
-			System.out.println("title : " +title.get(0).attr("content"));
-			
+			if(title.size()==0)
+				return null;
+			System.out.println("title : " + title.get(0).attr("content"));
 			Elements content = doc.select("div[id~=(?i).*article.*],div[class~=(?i).*article.*],td[id~=(?i).*article.*],td[class~=(?i).*article.*]");
-			int maxidx=0;
-			int maxlen=content.get(0).text().length();
-			for(int i=1;i<content.size();i++)
-			{
-				if(maxlen<content.get(i).text().length())
-					maxidx = i;
+
+			if (content.size()>0) {
+				int maxidx = 0;
+				int maxlen = content.get(0).text().length();
+				for (int i = 1; i < content.size(); i++) {
+					if (maxlen < content.get(i).text().length())
+						maxidx = i;
+				}
+
+				news.setNewsTitle(title.get(0).attr("content"));
+				news.setNewsContent(content.get(maxidx).text());
+
 			}
-			System.out.println(content.get(maxidx).text());
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
+		return news;
 
 	}
 

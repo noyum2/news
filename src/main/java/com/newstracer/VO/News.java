@@ -9,8 +9,20 @@ public class News extends Base implements Serializable{
 	private int newsID;
 	private String newsTitle;
 	private String newsContent;
-	private String newsCategory;
+//	private String newsCategory;
 //	private String newsKeyword;
 //	private String newsPublisher;
+	public String getNewsTitle() {
+		return newsTitle;
+	}
+	public void setNewsTitle(String newsTitle) {
+		this.newsTitle = newsTitle;
+	}
+	public String getNewsContent() {
+		return newsContent;
+	}
+	public void setNewsContent(String newsContent) {
+		this.newsContent = newsContent;
+	}
 	
 }
