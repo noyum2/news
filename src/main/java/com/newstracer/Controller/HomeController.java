@@ -82,18 +82,22 @@ public class HomeController {
 				}
 				in.close();
 				String res = response.toString().replaceAll(">", ">\n");
-				//		System.out.println(res);
+				System.out.println(res);
 
 				Document xmlDoc = Jsoup.parse(response.toString(), "", Parser.xmlParser());
 				Elements links = xmlDoc.select("link");
-
+				
+				for (int i = 1; i < links.size(); i++)
+				{
+					System.out.println(links.get(i).text());
+				}
 				System.out.println("<Link Parsing.....>\n\n");
 				List<News> newses = new ArrayList<News>();
 				for (int i = 1; i < links.size(); i++)
 				{
 					News news = Crawling(links.get(i).text());
 					if(news!=null)
-						if(news.getNewsContent()!="")
+						if((news.getNewsTitle()!=null)&&(news.getNewsContent()!=null))
 							newses.add(news);
 				}
 				model.addAttribute("newsList", newses);
@@ -101,7 +105,7 @@ public class HomeController {
 				System.out.println("API 호출 에러 발생 : 에러코드=" + responseCode);
 			}
 		} catch (Exception e) {
-			System.out.println(e);
+			e.printStackTrace();
 		}
 		return "aa";
 	}
@@ -114,7 +118,6 @@ public class HomeController {
 			Elements title = doc.select("meta[property~=(?i).*title.*]");
 			if(title.size()==0)
 				return null;
-			System.out.println("title : " + title.get(0).attr("content"));
 			Elements content = doc.select("div[id~=(?i).*article.*],div[class~=(?i).*article.*],td[id~=(?i).*article.*],td[class~=(?i).*article.*]");
 
 			if (content.size()>0) {
@@ -129,6 +132,8 @@ public class HomeController {
 				news.setNewsContent(content.get(maxidx).text());
 
 			}
+			else
+				return null;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
