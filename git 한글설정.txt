@@ -1,0 +1,11 @@
+	
+	loot derectory 이동
+		->cd ~
+	
+	.inputrc 생성
+		->vim .inputrc
+	
+	.inputrc 내용
+		
+		set output-meta on
+		set convert-meta off
