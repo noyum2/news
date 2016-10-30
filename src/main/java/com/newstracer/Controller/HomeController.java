@@ -37,7 +37,6 @@ import com.newstracer.service.NewsService;
  */
 @Controller
 public class HomeController {
-	
 	@Autowired
 	private NewsService newsService;
 

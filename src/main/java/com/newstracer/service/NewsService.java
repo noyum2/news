@@ -19,6 +19,7 @@ import com.newstracer.VO.News;
 
 @Service("NewsService")
 public class NewsService {
+	
 	public List<News> getNewsDescription(String keyword) {
 		System.out.println("==== 검색 API 호출====");
 		String clientId = "Z2_N6rKLP8h1DbAAR2nD";
