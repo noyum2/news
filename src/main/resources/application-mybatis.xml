@@ -4,8 +4,6 @@
                         http://www.springframework.org/schema/context
                         http://www.springframework.org/schema/context/spring-context.xsd">
 
-	<!-- sqlSessionFactory 설정(mybatis 연동을 위한) -->
-	<!-- typeAliasedPackage는 xml파일에서 완전한 클래스 이름 대신 별칭을 사용할 클래스 목록 지정 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
 		<property name="typeAliasesPackage" value="com.board.domain" />
@@ -16,7 +14,6 @@
 		</property>
 	</bean>
 
-	<!-- sqlSessionTemplate 설정 (sqlSession을 위한 스프링 연동 부분 구현을 하는, mybatis를 이용한 dao구현을 위해) -->
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">
 		<constructor-arg ref="sqlSessionFactory" />
 	</bean>
