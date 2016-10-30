@@ -1,0 +1,39 @@
+create database newstracer_db;
+use newstracer_db;
+
+create table usertable(
+	userseq int not null auto_increment primary key,
+    userid varchar(15) not null,
+    userpass varchar(15) not null,
+    username varchar(15) not null,
+    userbirth varchar(15) not null,
+    useremail varchar(30) not null,
+    userphone varchar(20) not null,
+    usergender char(1) not null,
+    useraddress char(50) not null
+);
+
+create table user_keyword(
+	keywordseq int not null auto_increment primary key,
+    userseq int,
+    content varchar(10),
+	foreign key user_keyword(userseq) references usertable(userseq)
+);
+
+create table newstable(
+	newsseq int not null auto_increment primary key,
+    title varchar(100),
+    content varchar(2000),
+    publisher varchar(30),
+    description varchar(1000)
+);
+
+create table news_comment(
+	commentseq int not null auto_increment primary key,
+    newsseq int not null,
+    userseq int not null,
+    content varchar(200),
+    commentdate timestamp not null default current_timestamp on update current_timestamp,
+    foreign key news_commnet(newsseq) references newstable(newsseq),
+    foreign key news_comment(userseq) references usertable(userseq)
+)
