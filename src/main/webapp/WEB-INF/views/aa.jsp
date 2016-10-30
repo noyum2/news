@@ -12,7 +12,8 @@
 <body>
 	<c:forEach var="news" items="${newsList}" varStatus="status">
 	제목 : ${news.newsTitle}<br/>
-	내용 : ${news.newsContent}<br/><br/>
+	내용 : ${news.newsDescription}<br/>
+	내용 : ${news.newsUrl}<br/><br/>
 	</c:forEach>
 </body>
 </html>

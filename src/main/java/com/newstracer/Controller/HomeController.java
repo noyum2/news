@@ -23,6 +23,7 @@ import org.jsoup.select.Evaluator.ContainsText;
 //여기까지
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,6 +37,9 @@ import com.newstracer.service.NewsService;
  */
 @Controller
 public class HomeController {
+	
+	@Autowired
+	private NewsService newsService;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -59,40 +63,12 @@ public class HomeController {
 	//서비스로 갈것
 	@RequestMapping("/news1")
 	public String news1(Model model) throws IOException {
-		NewsService newsService;
-		List<News> = newsService.getNewsDescription("설현");
+
+		List<News> newses = newsService.getNewsDescription("설현");
+		model.addAttribute("newsList", newses);
 		return "aa";
 	}
 
-	//서비스로 갈것
-	private News Crawling(String urlstr) {
-		News news = new News();
-		try {
-			Document doc = Jsoup.connect(urlstr).get();
-			Elements title = doc.select("meta[property~=(?i).*title.*]");
-			if(title.size()==0)
-				return null;
-			Elements content = doc.select("div[id~=(?i).*article.*],div[class~=(?i).*article.*],td[id~=(?i).*article.*],td[class~=(?i).*article.*]");
 
-			if (content.size()>0) {
-				int maxidx = 0;
-				int maxlen = content.get(0).text().length();
-				for (int i = 1; i < content.size(); i++) {
-					if (maxlen < content.get(i).text().length())
-						maxidx = i;
-				}
-
-				news.setNewsTitle(title.get(0).attr("content"));
-				news.setNewsContent(content.get(maxidx).text());
-
-			}
-			else
-				return null;
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-		}
-		return news;
-
-	}
 
 }
