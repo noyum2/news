@@ -85,19 +85,20 @@ public class NewsService {
 			Elements check = head.select("script[type=text/javascript]");
 
 			for (int i = 0; i < check.size(); i++) {
-				isTarget = check.get(i).text().contains("document.domain='naver.com';");
+				isTarget = check.get(i).data().contains("document.domain = 'naver.com';");
 				if (isTarget)
 					break;
 			}
 			if (!isTarget)
 				return null;
-
+			
+			
 			Elements title = doc.select("meta[property=og:title]");
-			news.setNewsTitle(title.get(0).text());
+			news.setNewsTitle(title.get(0).attr("content"));
 			Elements description = doc.select("meta[property=og:description]");
-			news.setNewsDescription(description.get(0).text());
+			news.setNewsDescription(description.get(0).attr("content"));
 			Elements url = doc.select("meta[property=og:url]");
-			news.setNewsUrl(url.get(0).text());
+			news.setNewsUrl(url.get(0).attr("content"));
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
