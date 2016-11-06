@@ -6,12 +6,8 @@
 
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
-		<property name="typeAliasesPackage" value="com.board.domain" />
-		<property name="mapperLocations">
-			<list>
-				<value>classpath:mapper/*.xml</value>
-			</list>
-		</property>
+		<property name="typeAliasesPackage" value="com.newstracer.VO" />
+		<property name="mapperLocations" value="classpath:mapper/*.xml"/>
 	</bean>
 
 	<bean id="sqlSessionTemplate" class="org.mybatis.spring.SqlSessionTemplate">

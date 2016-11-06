@@ -2,6 +2,9 @@ package com.newstracer.VO;
 
 import java.io.Serializable;
 
+import org.apache.ibatis.type.Alias;
+
+@Alias("Base")
 public class Base implements Serializable {
 
 	private static final long serialVersionUID = 6618793047631655226L;
