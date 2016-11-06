@@ -27,7 +27,7 @@ public class UserServiceImpl implements UserService{
 	public User LoginUser(String userId,String userPass)
 	{
 		User res = userdao.SelectUserByUserId(userId);
-		if(res.equals(null))
+		if(res==null)
 		{
 			res.setResultCode(500);
 			res.setResultMessage("아이디가 존재하지 않습니다.");
