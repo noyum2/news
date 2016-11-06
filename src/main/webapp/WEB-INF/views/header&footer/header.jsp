@@ -30,7 +30,7 @@ float:right;
 	<br/>
 	<h2 class="head_title">NEWS TRACER</h2>
 	<c:choose>
-	<c:when test=${not empty sessionScope.user}>
+	<c:when test="${not empty sessionScope.user}">
 		<p>${sessionScope.user.getName()}</p>
 	</c:when>
 	<c:otherwise>
@@ -64,7 +64,8 @@ function login(){
 		headers : headers,
 		data : data,
 		success : function(data) {
-			alert("data");
+			if(data.resultCode==200)
+				alert(data.resultMessage);
 		},
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "error:" + error);

@@ -24,6 +24,7 @@ public class SignInController {
 	@RequestMapping(value="/",method = RequestMethod.POST)
 	public @ResponseBody User SignIn(@RequestBody HttpServletRequest request,HttpSession session)
 	{
+		System.out.println("signin");
 		User user = userService.LoginUser(request.getParameter("id"), request.getParameter("pw"));
 		if(user.getResultCode()==200)
 			session.setAttribute("user", user);
