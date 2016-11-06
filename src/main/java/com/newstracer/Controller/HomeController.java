@@ -1,25 +1,11 @@
 package com.newstracer.Controller;
 
-//이부분 임포트는 나중에 서비스로 옮겨야함 일단 컨트롤러에서 간단하게 구현함
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
 import java.text.DateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-import org.hamcrest.core.IsNull;
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-import org.jsoup.parser.Parser;
-import org.jsoup.select.Elements;
-import org.jsoup.select.Evaluator.ContainsText;
 //여기까지
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -38,7 +24,7 @@ import com.newstracer.VO.News;
 @Controller
 public class HomeController {
 	@Autowired
-	private NewsService newsService;
+	private NewsService newsServiceImpl;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -63,7 +49,7 @@ public class HomeController {
 	@RequestMapping("/news1")
 	public String news1(Model model) throws IOException {
 
-		List<News> newses = newsService.getNewsDescription("설현");
+		List<News> newses = newsServiceImpl.getNewsDescription("설현");
 		model.addAttribute("newsList", newses);
 		return "aa";
 	}
