@@ -20,5 +20,11 @@ public class UserDaoImpl implements UserDao {
 	{
 		return template.insert(statement +"InsertUser", user);
 	}
+	
+	@Override
+	public User SelectUserByUserId(String userId)
+	{
+		return template.selectOne(statement+"SelectUserByUserId",userId);
+	}
 
 }

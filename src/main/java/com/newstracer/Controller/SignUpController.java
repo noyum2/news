@@ -13,6 +13,7 @@ import com.newstracer.Service.UserService;
 import com.newstracer.VO.User;
 
 @Controller
+@RequestMapping("/signup")
 public class SignUpController {
 	
 	@Autowired
@@ -20,12 +21,12 @@ public class SignUpController {
 	
 
 	
-	@RequestMapping("/signup")
+	@RequestMapping("/")
 	public String signup(Model model) {
 		return "signup";
 	}
 
-	@RequestMapping(value="/signup/signupInput",method = RequestMethod.POST)
+	@RequestMapping(value="/signupInput",method = RequestMethod.POST)
 	public String signupInput(HttpServletRequest request, User user){
 
 		user.setUserId(request.getParameter("userId"));
@@ -39,7 +40,7 @@ public class SignUpController {
 		
 		int res = userService.SignUser(user);
 		
-		return "redirect:/signup";
+		return "redirect:/signup/";
 		
 	}
 }
