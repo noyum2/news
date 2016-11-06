@@ -21,12 +21,20 @@ public class SignInController {
 	@Autowired
 	UserService userService;
 	
-	@RequestMapping(value="/",method = RequestMethod.POST)
-	public @ResponseBody User SignIn(@RequestBody HttpServletRequest request,HttpSession session)
+	@RequestMapping(value="/aa",method = RequestMethod.POST)
+	@ResponseBody
+	public String SignIn(HttpServletRequest request,HttpSession session)
 	{
+		System.out.println(request.getParameter("id"));
 		User user = userService.LoginUser(request.getParameter("id"), request.getParameter("pw"));
-		if(user.getResultCode()==200)
+		if(user.getResultCode()==200){
 			session.setAttribute("user", user);
-		return user;
+			return "OK";
+		}
+		else{
+			return "FALSE";
+		}
+		
+		
 	}
 }
