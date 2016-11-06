@@ -15,7 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.newstracer.service.NewsService;
+import com.newstracer.Service.NewsService;
 import com.newstracer.VO.News;
 
 /**

@@ -9,7 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.newstracer.service.UserService;
+import com.newstracer.Service.UserService;
 import com.newstracer.VO.User;
 
 @Controller

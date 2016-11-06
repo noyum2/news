@@ -1,4 +1,4 @@
-package com.newstracer.service;
+package com.newstracer.Service;
 
 import java.util.List;
 

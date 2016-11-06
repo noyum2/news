@@ -15,15 +15,11 @@ margin: 0px;
 .head_title{
 color: white;
 margin: 0px;
-float:left;
+
 }
 </style>
 </head>
 <body style="background-color: gray; margin:0px">
-<div class="head">
-<br/>
-<h1 class="head_title">NEWS TRACER</h1>
-<br/>
-</div>
+<c:import url="/WEB-INF/views/header&footer/header.jsp"></c:import>
 </body>
 </html>
