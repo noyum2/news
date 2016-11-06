@@ -4,4 +4,8 @@
 	INSERT INTO usertable(userid, userpass, username, userbirth, useremail, userphone, usergender, useraddress)
 	VALUES (#{userId},#{userPass},#{userName},#{birth},#{email},#{phoneNumber},#{gender},#{address})
 	</insert>
+	
+	<select id="SelectUserByUserId" parameterType="String" resultType="User">
+	Select * FROM usertable WHERE userid = #{userId}
+	</select>
 </mapper>
