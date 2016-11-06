@@ -1,7 +1,5 @@
 package com.newstracer.DAO;
 
-import java.util.Map;
-
 import com.newstracer.VO.User;
 
 public interface UserDao {
