@@ -12,6 +12,7 @@
 .newsContents{
 border:1px blue solid;
 border-radius: 5px;
+background-color: gray;
 }
 </style>
 </head>
