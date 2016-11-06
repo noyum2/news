@@ -10,44 +10,42 @@
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
-
 <title>News Tracer</title>
 <style>
-.head{
-background-color:#368AFF;
-margin: 0px;
-height: 75px;
+.head {
+	background-color: #368AFF;
+	margin: 0px;
+	height: 75px;
 }
-.head_title{
-color: white;
-margin: 0px;
-float:left;
+
+.head_title {
+	color: white;
+	margin: 0px;
+	float: left;
 }
-.login{
-float:right;
+
+.login {
+	float: right;
 }
 </style>
 </head>
-<body style="background-color: gray; margin:0px">
-<div class="head">
-	<br/>
-	<h2 class="head_title">NEWS TRACER</h2>
-<<<<<<< HEAD
-	<c:choose>
-	<c:when test="${not empty sessionScope.user}">
-		<p>${sessionScope.user.getName()}</p>
-	</c:when>
-	<c:otherwise>
-		<div class="login">
-=======
-	
-	<div class="login">
->>>>>>> b86e09bfb4a1a2d1a57b4dca6a1de61881120586
-		<input id="id" name="id" placeholder="아이디">
-		<input id="pw" name="pw" placeholder="비밀번호">
-		<button type="button" onclick="login()">제출</button>
-</div>
-</div>
+<body style="background-color: gray; margin: 0px">
+	<div class="head">
+		<br />
+		<h2 class="head_title">NEWS TRACER</h2>
+		<c:choose>
+			<c:when test="${not empty sessionScope.user}">
+				<p>${sessionScope.user.getUserName()}</p>
+			</c:when>
+			<c:otherwise>
+				<div class="login">
+					<div class="login">
+						<input id="id" name="id" placeholder="아이디"> <input id="pw" name="pw" placeholder="비밀번호">
+						<button type="button" onclick="login()">제출</button>
+					</div>
+				</div>
+			</c:otherwise>
+		</c:choose>
 </body>
 <script>
 function login(){
@@ -70,12 +68,8 @@ function login(){
 		headers : headers,
 		data : data,
 		success : function(data) {
-<<<<<<< HEAD
 			if(data.resultCode==200)
 				alert(data.resultMessage);
-=======
-			alert(data);
->>>>>>> b86e09bfb4a1a2d1a57b4dca6a1de61881120586
 		},
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "error:" + error);
