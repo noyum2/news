@@ -8,6 +8,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>Home</title>
 <link href="resources/css/bootstrap.css" rel="stylesheet">
+<script src="/resources/js/jquery.js" type="text/javascript"></script>
 <style>
 .newsContents{
 border:1px blue solid;
