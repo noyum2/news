@@ -11,9 +11,12 @@
 </head>
 <body>
 	<c:forEach var="news" items="${newsList}" varStatus="status">
-	제목 : ${news.newsTitle}<br/>
-	내용 : ${news.newsDescription}<br/>
-	url : <a href="${news.newsUrl}">${news.newsUrl}</a><br/><br/>
+		<div>
+			제목 : ${news.newsTitle}<br/>
+			<hr>
+			내용 : ${news.newsDescription}<br/>
+			url : <a href="${news.newsUrl}">${news.newsUrl}</a><br/><br/>
+		</div>
 	</c:forEach>
 </body>
 </html>
