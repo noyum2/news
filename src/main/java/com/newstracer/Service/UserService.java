@@ -1,4 +1,4 @@
-package com.newstracer.Service;
+package com.newstracer.service;
 
 import com.newstracer.VO.User;
 

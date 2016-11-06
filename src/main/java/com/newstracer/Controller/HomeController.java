@@ -29,7 +29,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
-import com.newstracer.Service.NewsService;
+import com.newstracer.service.NewsService;
 import com.newstracer.VO.News;
 
 /**
@@ -67,7 +67,9 @@ public class HomeController {
 		model.addAttribute("newsList", newses);
 		return "aa";
 	}
-
-
+	@RequestMapping("/index")
+	public String index(){
+		return "home/index"; 
+	}
 
 }

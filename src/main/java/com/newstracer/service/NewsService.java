@@ -1,4 +1,4 @@
-package com.newstracer.Service;
+package com.newstracer.service;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;

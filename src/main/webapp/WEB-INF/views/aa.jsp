@@ -12,11 +12,11 @@
 .newsContents{
 border:1px blue solid;
 border-radius: 5px;
-background-color: gray;
+background-color: white;
 }
 </style>
 </head>
-<body>
+<body style="background-color: gray;">
 	<c:forEach var="news" items="${newsList}" varStatus="status">
 		<div class="newsContents">
 			제목 : ${news.newsTitle}<br/>
