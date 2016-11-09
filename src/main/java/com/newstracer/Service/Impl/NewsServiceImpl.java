@@ -57,10 +57,13 @@ public class NewsServiceImpl implements NewsService {
 				}
 				System.out.println("<Link Parsing.....>\n\n");
 
-				for (int i = 1; i < links.size(); i++) {
+				for (int i = 1,cnt = 1; cnt%10 !=0 && i < links.size(); i++) {
 					News news = ParseHead(links.get(i).text());
 					if (news != null)
+					{
+						cnt++;
 						newses.add(news);
+					}
 				}
 			} else {
 				System.out.println("API 호출 에러 발생 : 에러코드=" + responseCode);
