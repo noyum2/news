@@ -4,8 +4,11 @@ import java.io.Serializable;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 
 @Alias("News")
+@JsonInclude
 public class News extends Base implements Serializable{
 
 	private static final long serialVersionUID = -5691553664393895170L;
@@ -31,6 +34,12 @@ public class News extends Base implements Serializable{
 	}
 	public void setNewsDescription(String newsDescription) {
 		this.newsDescription = newsDescription;
+	}
+	public int getNewsID() {
+		return newsID;
+	}
+	public void setNewsID(int newsID) {
+		this.newsID = newsID;
 	}
 	
 }

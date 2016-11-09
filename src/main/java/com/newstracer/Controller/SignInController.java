@@ -1,5 +1,7 @@
 package com.newstracer.Controller;
 
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -21,17 +23,20 @@ public class SignInController {
 	@Autowired
 	UserService userService;
 
-	@RequestMapping(value="/aa",method = RequestMethod.POST)
-	@ResponseBody
-	public User SignIn(HttpServletRequest request,HttpSession session)
-	{
+	@RequestMapping(value = "/aa", method = RequestMethod.POST)
+	public @ResponseBody Base SignIn(@RequestBody User u, HttpSession session) {
 		System.out.println("signin");
-		System.out.println(request.getParameter("id"));
-		User user = userService.LoginUser(request.getParameter("id"), request.getParameter("pw"));
-		if(user.getResultCode()==200)
+	
+		System.out.println(u.getUserId());
+		User user = userService.LoginUser("test", "test");
+		if (user.getResultCode() == 200)
 			session.setAttribute("user", user);
 		
-		return user;
-		
+		Base base = new Base();
+		base.setResultCode(user.getResultCode());
+		base.setResultMessage(user.getResultMessage());
+
+		return new Base();
+
 	}
 }

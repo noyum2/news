@@ -6,10 +6,12 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<!--
 <meta name="_csrf" content="${_csrf.token}" />
 <meta name="_csrf_header" content="${_csrf.headerName}" />
 <script src="//code.jquery.com/jquery.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
+-->
 <title>News Tracer</title>
 <style>
 .head {
@@ -41,41 +43,44 @@
 				<div class="login">
 					<div class="login">
 						<input id="id" name="id" placeholder="아이디"> <input id="pw" name="pw" placeholder="비밀번호">
-						<button type="button" onclick="login()">제출</button>
+						<button type="button" id="login">제출</button>
 					</div>
 				</div>
 			</c:otherwise>
 		</c:choose>
+	</div>
+	<script src="resources/js/jquery.js"></script>
+	<script>
+		$(document).ready(
+				function() {
+
+					// 회원가입 버튼
+					$('#login').click(
+							function() {
+								var form = {
+									userId : $('#id').val(),
+									userPass : $('#pw').val(),
+								};
+								console.log(JSON.stringify(form));
+								$.ajax({
+									url : '/news/signin/aa',
+									type : 'POST',
+									dataType : 'json',
+									contentType : 'application/json',
+									mimeType : 'application/json',
+									data : JSON.stringify(form),
+									success : function(result) {
+										if (result.resultCode == 200)
+											alert(result.resultMessage);
+										location.reload();
+									},
+									error : function(request, status, error) {
+										alert("code:" + request.status + "\n"
+												+ "error:" + error);
+									}
+								});
+							});
+				});
+	</script>
 </body>
-<script>
-function login(){
-
-	var id=document.getElementById("id").value;
-	var pw=document.getElementById("pw").value;
-	//var csrfParameter = $("meta[name='_csrf_parameter']").attr("content");
-	//var csrfToken = $("meta[name='_csrf']").attr("content");
-	//var csrfHeader = $("meta[name='_csrf_header']").attr("content"); // THIS WAS ADDED
-	var data = {};
-	var headers = {};
-	//data[csrfParameter] = csrfToken;
-	data["id"] =id;
-	data["pw"]=pw;
-	//headers[csrfHeader] = csrfToken;
-	$.ajax({
-		url : "/news/signin/aa",
-		dataType : "json",
-		type : "POST",
-		headers : headers,
-		data : data,
-		success : function(data) {
-			if(data.resultCode==200)
-				alert(data.resultMessage);
-		},
-		error : function(request, status, error) {
-			alert("code:" + request.status + "\n" + "error:" + error);
-		}
-
-	});
-}
-</script>
 </html>

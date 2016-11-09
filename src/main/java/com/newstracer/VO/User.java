@@ -5,13 +5,15 @@ import java.io.Serializable;
 import org.apache.ibatis.type.Alias;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 
 @Alias("User")
-@JsonInclude
+@JsonInclude(Include.NON_NULL)
 public class User extends Base implements Serializable {
 
 	/**
+	 * 
 	 * 
 	 */
 	private static final long serialVersionUID = -1449114306861052365L;

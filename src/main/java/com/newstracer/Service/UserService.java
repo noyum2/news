@@ -1,5 +1,6 @@
 package com.newstracer.Service;
 
+import com.newstracer.VO.Base;
 import com.newstracer.VO.User;
 
 public interface UserService {

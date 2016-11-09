@@ -4,7 +4,10 @@ import java.io.Serializable;
 
 import org.apache.ibatis.type.Alias;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
+
 @Alias("Base")
+@JsonInclude
 public class Base implements Serializable {
 
 	private static final long serialVersionUID = 6618793047631655226L;
