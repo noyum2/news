@@ -13,6 +13,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script>
 -->
 <title>News Tracer</title>
+<link href="resources/css/bootstrap.css" rel="stylesheet">
 <style>
 .head {
 	background-color: #368AFF;
@@ -31,8 +32,8 @@
 }
 </style>
 </head>
-<body style="background-color: gray; margin: 0px">
-	<div class="head">
+<body>
+	<div class="head" style="padding-left: 20px; padding-right: 20px;">
 		<br />
 		<h2 class="head_title">NEWS TRACER</h2>
 		<c:choose>
@@ -40,16 +41,22 @@
 				<p>${sessionScope.user.getUserName()}</p>
 			</c:when>
 			<c:otherwise>
-				<div class="login">
-					<div class="login">
-						<input id="id" name="id" placeholder="아이디"> <input id="pw" name="pw" placeholder="비밀번호">
-						<button type="button" id="login">제출</button>
-					</div>
+				<div style="float: right;">
+					<form class="form-inline">
+						<div class="form-group">
+							<input type="text" class="form-control" id="id" placeholder="Enter Your ID">
+						</div>
+						<div class="form-group">
+							<input type="password" class="form-control" id="pw" placeholder="Password">
+						</div>
+						<button id="login" class="btn btn-default">Log in</button>
+					</form>
 				</div>
 			</c:otherwise>
 		</c:choose>
 	</div>
 	<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
 	<script>
 		$(document).ready(
 				function() {
