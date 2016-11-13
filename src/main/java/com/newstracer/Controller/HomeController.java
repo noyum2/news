@@ -1,6 +1,5 @@
 package com.newstracer.Controller;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.List;
@@ -15,8 +14,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.Service.UserService;
@@ -55,14 +56,6 @@ public class HomeController {
 		return "home";
 	}
 
-	//서비스로 갈것
-	@RequestMapping("/news1")
-	public String news1(Model model) throws IOException {
-
-		List<News> newses = newsServiceImpl.getNewsDescription("설현");
-		model.addAttribute("newsList", newses);
-		return "aa";
-	}
 	@RequestMapping("/index")
 	public String index(){
 		return "home/index"; 
@@ -70,8 +63,6 @@ public class HomeController {
 	@RequestMapping("/mainPage")
 	public String mainPage(Model model,HttpSession session){
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
-		System.out.println(keywords.size()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-		System.out.println(keywords.get(0).getContent()+"aaaaaaaaaaaaaaaaaaaaaa");
 		model.addAttribute("keywords", keywords);
 		return "main/userMain"; 
 	}
@@ -86,5 +77,11 @@ public class HomeController {
 		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
 		
 		return "redirect:/mainPage";
+	}
+	
+	@RequestMapping(value="/mainPage/getKeyword",method=RequestMethod.POST)
+	public @ResponseBody List<News> GetNews(@RequestBody String keyword)
+	{
+		return newsServiceImpl.getNewsDescription(keyword);
 	}
 }
