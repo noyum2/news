@@ -89,11 +89,9 @@ function checkEnter(){
 			<span style="color:white;"> + 내 키워드 보기</span>
 		</div>
 		<div id="drop_down_keyWord" class="drop_down_keyWord">
-			<li>윤현도</li>
-			<li>윤현도</li>
-			<li>윤현도</li>
-			<li>윤현도</li>
-			<li>윤현도</li>
+			<c:forEach items="${keywords}" var="list">
+			<li>${list.get}</li>
+			</c:forEach>
 			<span onclick="showInput()">+키워드추가</span><br/>
 			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
 			<input type="text" id="inputKeyWord" style="display:none" onkeydown="checkEnter()">
