@@ -57,5 +57,8 @@ public class HomeController {
 	public String index(){
 		return "home/index"; 
 	}
-
+	@RequestMapping("/mainPage")
+	public String mainPage(){
+		return "main/userMain"; 
+	}
 }
