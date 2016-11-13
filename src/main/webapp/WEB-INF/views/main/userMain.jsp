@@ -88,6 +88,7 @@ function showNewsFeedByKeyWord(keyword){
 		contentType : 'application/json',
 		data : JSON.stringify(data),
 		success : function(result) {
+			$('#newsfeed').empty();
 			makeNewsList(result)
 		},
 		error : function(request, status, error) {
@@ -136,11 +137,9 @@ function makeNewsList(result){
 </div>
 <div class="page_right">
 	<div id="newsfeed" class="newsfeed">
-		<div class="newsfeed_title">
-			title
-		</div>
+		
 			<div id="newsfeed_contents" class="newsfeed_contents">
-				contents<span>더보기</span>
+				<h2>뉴스를 보시려면 키워드를 클릭해주세요</h2>
 			</div>
 	</div>
 	<br/>
