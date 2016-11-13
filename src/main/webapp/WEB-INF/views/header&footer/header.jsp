@@ -38,7 +38,7 @@
 		<h2 class="head_title">NEWS TRACER</h2>
 		<c:choose>
 			<c:when test="${not empty sessionScope.user}">
-				<p>${sessionScope.user.getUserName()}</p>
+				<strong style="float:right; color: white; font-size: medium;">${sessionScope.user.getUserName()} 님 로그인 되셨습니다.</strong>
 			</c:when>
 			<c:otherwise>
 				<div style="float: right;">
