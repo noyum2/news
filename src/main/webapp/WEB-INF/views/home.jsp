@@ -24,11 +24,20 @@
 		<div class="row">
 			<h2>지금 회원으로 등록하고 관심있는 뉴스를 받아보세요!</h2>
 			<div class="col-md-6 col-md-offset-3">
-				<button type="button" class="btn-lg btn-success btn-block" id="login" style="height: 100px;">회원 가입</button>
+				<button type="button" class="btn-lg btn-success btn-block" id="signup" style="height: 100px;">회원 가입</button>
 			</div>
 		</div>
 	</div>
 	<script src="resources/js/jquery.js"></script>
 	<script src="resources/js/bootstrap.min.js"></script>
+	<script type="text/javascript">
+	$(document).ready(
+			function(){
+				$('#signup').click(function(){
+					location.href='/news/signup/';
+				})
+			}
+			)
+	</script>
 </body>
 </html>

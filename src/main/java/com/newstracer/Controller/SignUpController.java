@@ -39,8 +39,8 @@ public class SignUpController {
 		user.setBirth(request.getParameter("userBirth"));
 		
 		int res = userService.SignUser(user);
-		
-		return "redirect:/signup/";
+		System.out.println(res);
+		return "redirect:/";
 		
 	}
 }
