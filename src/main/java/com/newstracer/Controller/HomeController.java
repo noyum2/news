@@ -2,6 +2,7 @@ package com.newstracer.Controller;
 
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -80,11 +81,9 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/mainPage/getKeyword",method=RequestMethod.POST)
-	public @ResponseBody List<News> GetNews(HttpServletRequest request,@RequestBody String keyword)
+	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String,String> map)
 	{
-		String keywords=request.getParameter("keyword");
-		System.out.println(keywords);
-		System.out.println(keyword);
-		return newsServiceImpl.getNewsDescription(keyword);
+		System.out.println(map.get("keyword"));
+		return newsServiceImpl.getNewsDescription(map.get("keyword"));
 	}
 }

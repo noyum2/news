@@ -86,19 +86,18 @@ function showNewsFeedByKeyWord(keyword){
 		type : 'POST',
 		dataType : 'json',
 		contentType : 'application/json',
-		data : data,
+		data : JSON.stringify(data),
 		success : function(result) {
-			makeNewsList(result);
+			makeNewsList(result)
 		},
 		error : function(request, status, error) {
-			alert("code:" + request.status + "\n"
-					+ "error:" + error);
+			alert("code:" + request.status + "\n"+ "error:" + error);
 		}
 	});
 }
 function makeNewsList(result){
 	for (var i in result){
-		$('#newsfeed').append("<div class='newsfeed_title'>"+result[i].getNewsTitle()+"</div><div id='newsfeed_contents' class='newsfeed_contents'>"+result[i].getNewsDescription()+"</div></div><br/");
+		$('#newsfeed').append("<div class='newsfeed_title'>"+result[i].newsTitle+"</div><div id='newsfeed_contents' class='newsfeed_contents'>"+result[i].newsDescription+"</div></div><br/>");
 	}
 	
 }
