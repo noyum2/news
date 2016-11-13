@@ -70,6 +70,8 @@ public class HomeController {
 	@RequestMapping("/mainPage")
 	public String mainPage(Model model,HttpSession session){
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
+		System.out.println(keywords.size()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
+		System.out.println(keywords.get(0).getContent()+"aaaaaaaaaaaaaaaaaaaaaa");
 		model.addAttribute("keywords", keywords);
 		return "main/userMain"; 
 	}

@@ -90,7 +90,7 @@ function checkEnter(){
 		</div>
 		<div id="drop_down_keyWord" class="drop_down_keyWord">
 			<c:forEach items="${keywords}" var="list">
-			<li>${list.get}</li>
+			<li>${list.getContent()}</li>
 			</c:forEach>
 			<span onclick="showInput()">+키워드추가</span><br/>
 			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
