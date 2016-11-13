@@ -80,6 +80,6 @@ public class HomeController {
 		System.out.println(keywords.length);
 		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
 		
-		return "redirct:/news/main/userMain";
+		return "redirect:/mainPage";
 	}
 }

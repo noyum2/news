@@ -51,7 +51,7 @@ public class UserServiceImpl implements UserService{
 		int res;
 		for(int i =0; i<keywords.length;i++)
 		{
-			Map<String,String> map = new HashMap<String, String>();
+			HashMap<String,String> map = new HashMap<String, String>();
 			map.put("userSeq", Integer.toString(userSeq));
 			map.put("keyword", keywords[i]);
 			if((res=userdao.InsertKeyWord(map))==0)

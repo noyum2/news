@@ -1,6 +1,6 @@
 package com.newstracer.DAO.Impl;
 
-import java.util.Map;
+import java.util.HashMap;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,9 +30,9 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public int InsertKeyWord(Map<String,String> keyword)
+	public int InsertKeyWord(HashMap<String,String> keyword)
 	{
-		return template.insert(statement+"InsertKeyword", keyword);
+		return template.insert(statement+"InsertKeyWord", keyword);
 	}
 
 }
