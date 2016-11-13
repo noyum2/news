@@ -6,6 +6,8 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
+<script src="resources/js/jquery.js"></script>
+	<script src="resources/js/bootstrap.min.js"></script>
 <title>News Tracer</title>
 <style>
 .main_left_top{
@@ -66,6 +68,16 @@ function showAccount(){
 	document.getElementById("drop_down_account").style.display = (document.getElementById("drop_down_account").style.display == "none") ? "inline" : "none";
 
 }
+function showInput(){
+	document.getElementById('inputKeyWord').style.display='inline';
+}
+function checkEnter(){
+	if(event.keyCode==13){
+		var value=document.getElementById("inputKeyWord").value;
+		$('#divKeyWord').append("<input type='text' name='inputKeyWord' value="+value+" disabled>");
+		document.getElementById("inputKeyWord").value="";
+	}
+}
 </script>
 </head>
 <body style="background-color: gray; margin:0px">
@@ -82,7 +94,9 @@ function showAccount(){
 			<li>윤현도</li>
 			<li>윤현도</li>
 			<li>윤현도</li>
-			<span>+키워드추가</span>
+			<span onclick="showInput()">+키워드추가</span><br/>
+			<div ><form action="news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
+			<input type="text" id="inputKeyWord" style="display:none" onkeydown="checkEnter()">
 		</div>
 	</div>
 	<br/>
@@ -104,13 +118,11 @@ function showAccount(){
 		<div class="newsfeed_title">
 			title
 		</div>
-			<div class="newsfeed_contents">
+			<div id="newsfeed_contents" class="newsfeed_contents">
 				contents<span>더보기</span>
 			</div>
-		<br/>
 	</div>
-	
-	
+	<br/>
 </div>
 </body>
 </html>

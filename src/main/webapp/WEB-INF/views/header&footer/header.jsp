@@ -79,7 +79,7 @@
 									success : function(result) {
 										if (result.resultCode == 200)
 											alert(result.resultMessage);
-										location.reload();
+										location.href="/news/mainPage";
 									},
 									error : function(request, status, error) {
 										alert("code:" + request.status + "\n"
