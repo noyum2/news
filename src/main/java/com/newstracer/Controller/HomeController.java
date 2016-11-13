@@ -74,8 +74,10 @@ public class HomeController {
 	@RequestMapping(value="/mainPage/inputKeyword",method=RequestMethod.POST)
 	public String InsertKeyWord(HttpServletRequest request,HttpSession session)
 	{
-		String[] keywords = request.getParameterValues("inputkeyWord");
+		String[] keywords = request.getParameterValues("keyword");
 		User user = (User)session.getAttribute("user");
+		System.out.println(user.getUserSeq());
+		System.out.println(keywords.length);
 		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
 		
 		return "redirct:/news/main/userMain";

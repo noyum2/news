@@ -74,7 +74,7 @@ function showInput(){
 function checkEnter(){
 	if(event.keyCode==13){
 		var value=document.getElementById("inputKeyWord").value;
-		$('#divKeyWord').append("<input type='text' name='inputKeyWord' value="+value+" disabled>");
+		$('#divKeyWord').append("<input type='text' name='keyword' value="+value+">");
 		document.getElementById("inputKeyWord").value="";
 	}
 }
@@ -95,7 +95,7 @@ function checkEnter(){
 			<li>윤현도</li>
 			<li>윤현도</li>
 			<span onclick="showInput()">+키워드추가</span><br/>
-			<div ><form action="news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
+			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
 			<input type="text" id="inputKeyWord" style="display:none" onkeydown="checkEnter()">
 		</div>
 	</div>
