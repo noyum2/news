@@ -82,7 +82,7 @@ function showNewsFeedByKeyWord(keyword){
 	var data = {};
 	data["keyword"]=keyword;
 	$.ajax({
-		url : '/news/signin/aa',
+		url : '/news/mainPage/getKeyword',
 		type : 'POST',
 		dataType : 'json',
 		contentType : 'application/json',
@@ -114,7 +114,7 @@ function makeNewsList(result){
 		</div>
 		<div id="drop_down_keyWord" class="drop_down_keyWord">
 			<c:forEach items="${keywords}" var="list">
-			<li onclick="showNewsFeedByKeyWord(${list.getContent()})">${list.getContent()}</li>
+			<li onclick="showNewsFeedByKeyWord('${list.getContent()}')">${list.getContent()}</li>
 			</c:forEach>
 			<span onclick="showInput()">+키워드추가</span><br/>
 			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>

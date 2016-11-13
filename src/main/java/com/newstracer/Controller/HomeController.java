@@ -80,8 +80,11 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value="/mainPage/getKeyword",method=RequestMethod.POST)
-	public @ResponseBody List<News> GetNews(@RequestBody String keyword)
+	public @ResponseBody List<News> GetNews(HttpServletRequest request,@RequestBody String keyword)
 	{
+		String keywords=request.getParameter("keyword");
+		System.out.println(keywords);
+		System.out.println(keyword);
 		return newsServiceImpl.getNewsDescription(keyword);
 	}
 }
