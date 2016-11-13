@@ -77,8 +77,10 @@
 									data : JSON.stringify(form),
 									success : function(result) {
 										if (result.resultCode == 200)
+										{
 											alert(result.resultMessage);
-										location.href="/news/mainPage";
+											location.replace('/news/mainPage');
+										}
 									},
 									error : function(request, status, error) {
 										alert("code:" + request.status + "\n"
