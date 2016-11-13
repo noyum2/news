@@ -1,12 +1,14 @@
 package com.newstracer.DAO.Impl;
 
 import java.util.HashMap;
+import java.util.List;
 
 import org.mybatis.spring.SqlSessionTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.newstracer.DAO.UserDao;
+import com.newstracer.VO.Keyword;
 import com.newstracer.VO.User;
 
 @Repository("UserDaoImpl")
@@ -35,4 +37,9 @@ public class UserDaoImpl implements UserDao {
 		return template.insert(statement+"InsertKeyWord", keyword);
 	}
 
+	@Override
+	public List<Keyword> SelectKeywordByUserSeq(int userSeq)
+	{
+		return template.selectList(statement+"SelectKeywordByUserSeq", userSeq);
+	}
 }
