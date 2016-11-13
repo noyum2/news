@@ -83,6 +83,7 @@ public class HomeController {
 	@RequestMapping(value="/mainPage/getKeyword",method=RequestMethod.POST)
 	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String,String> map)
 	{
+		System.out.println(map.get("keyword"));
 		return newsServiceImpl.getNewsDescription(map.get("keyword"));
 	}
 }

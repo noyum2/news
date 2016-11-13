@@ -82,23 +82,23 @@ function showNewsFeedByKeyWord(keyword){
 	var data = {};
 	data["keyword"]=keyword;
 	$.ajax({
-		url : '/news/signin/aa',
+		url : '/news/mainPage/getKeyword',
 		type : 'POST',
 		dataType : 'json',
 		contentType : 'application/json',
-		data : data,
+		data : JSON.stringify(data),
 		success : function(result) {
-			makeNewsList(result);
+			$('#newsfeed').empty();
+			makeNewsList(result)
 		},
 		error : function(request, status, error) {
-			alert("code:" + request.status + "\n"
-					+ "error:" + error);
+			alert("code:" + request.status + "\n"+ "error:" + error);
 		}
 	});
 }
 function makeNewsList(result){
 	for (var i in result){
-		$('#newsfeed').append("<div class='newsfeed_title'>"+result[i].getNewsTitle()+"</div><div id='newsfeed_contents' class='newsfeed_contents'>"+result[i].getNewsDescription()+"</div></div><br/");
+		$('#newsfeed').append("<div class='newsfeed_title'>"+result[i].newsTitle+"</div><div id='newsfeed_contents' class='newsfeed_contents'>"+result[i].newsDescription+"</div></div><br/>");
 	}
 	
 }
@@ -114,7 +114,7 @@ function makeNewsList(result){
 		</div>
 		<div id="drop_down_keyWord" class="drop_down_keyWord">
 			<c:forEach items="${keywords}" var="list">
-			<li onclick="showNewsFeedByKeyWord(${list.getContent()})">${list.getContent()}</li>
+			<li onclick="showNewsFeedByKeyWord('${list.getContent()}')">${list.getContent()}</li>
 			</c:forEach>
 			<span onclick="showInput()">+키워드추가</span><br/>
 			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
@@ -137,11 +137,9 @@ function makeNewsList(result){
 </div>
 <div class="page_right">
 	<div id="newsfeed" class="newsfeed">
-		<div class="newsfeed_title">
-			title
-		</div>
+		
 			<div id="newsfeed_contents" class="newsfeed_contents">
-				contents<span>더보기</span>
+				<h2>뉴스를 보시려면 키워드를 클릭해주세요</h2>
 			</div>
 	</div>
 	<br/>

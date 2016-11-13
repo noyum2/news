@@ -81,6 +81,7 @@
 											alert(result.resultMessage);
 											location.replace('/news/mainPage');
 										}
+										//location.href="/news/mainPage";
 									},
 									error : function(request, status, error) {
 										alert("code:" + request.status + "\n"
