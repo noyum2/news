@@ -8,4 +8,8 @@
 	<select id="SelectUserByUserId" parameterType="String" resultType="User">
 	Select * FROM usertable WHERE userid = #{userId}
 	</select>
+	
+	<insert id="InsertKeyWord" parameterType="Map">
+	INSERT INTO user_keyword(userseq,content) VALUE(#{userSeq},#{keyword})
+	</insert>
 </mapper>

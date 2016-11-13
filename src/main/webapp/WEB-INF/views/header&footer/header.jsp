@@ -74,7 +74,6 @@
 									type : 'POST',
 									dataType : 'json',
 									contentType : 'application/json',
-									mimeType : 'application/json',
 									data : JSON.stringify(form),
 									success : function(result) {
 										if (result.resultCode == 200)
