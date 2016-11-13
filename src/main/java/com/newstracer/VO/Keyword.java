@@ -18,7 +18,7 @@ public class Keyword extends Base implements Serializable {
 
 	private int keywordSeq;
 	private int userSeq;
-	private String keyword;
+	private String content;
 	public int getKeywordSeq() {
 		return keywordSeq;
 	}
@@ -31,10 +31,11 @@ public class Keyword extends Base implements Serializable {
 	public void setUserSeq(int userSeq) {
 		this.userSeq = userSeq;
 	}
-	public String getKeyword() {
-		return keyword;
+	public String getContent() {
+		return content;
 	}
-	public void setKeyword(String keyword) {
-		this.keyword = keyword;
+	public void setContent(String content) {
+		this.content = content;
 	}
+
 }
