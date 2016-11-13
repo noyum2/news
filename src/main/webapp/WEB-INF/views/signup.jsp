@@ -7,18 +7,42 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
 <title>Sign Up</title>
+<link href="../resources/css/bootstrap.css" rel="stylesheet">
 </head>
 <body>
-<form action="/news/signup/signupInput" method="POST">
-아이디<input type="text" name="userId"><br>
-비밀번호<input type="password" name="userPass"><br>
-이름<input type="text" name="userName"><br>
-이메일<input type="text" name="userEmail"><br>
-전화번호<input type="text" name="userPhone"><br>
-성별 <input type="radio" name="gender" value="1">남자 <input type="radio" name="gender" value="0">여자<br>
-주소 <input type="text" name="userAddr">
-생일<input type="text" name="userBirth">
-<input type="submit" value="회원가입">
-</form>
+	<c:import url="header&footer/header.jsp"></c:import>
+	<div class="container" align="center">
+		<div class="row">
+			<div class="col-md-6 col-md-offset-3">
+				<div class="panel panel-primary" style="margin-top: 30px;">
+					<div class="panel-heading">회원 가입</div>
+					<div class="panel-body">
+						<form class="form-horizontal">
+							<div class="form-group">
+								<label class="col-sm-3 control-label">ID</label>
+								<div class="col-sm-8">
+									<input type="text" class="form-control" id="userId">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">Password</label>
+								<div class="col-sm-9">
+									<input type="password" class="form-control" id="userPass">
+								</div>
+							</div>
+							<div class="form-group">
+								<label class="col-sm-2 control-label">이름</label>
+								<div class="col-sm-9">
+									<input type="text" class="form-control" id="userName">
+								</div>
+							</div>
+						</form>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="../resources/js/jquery.js"></script>
+	<script src="../resources/js/bootstrap.min.js"></script>
 </body>
 </html>
