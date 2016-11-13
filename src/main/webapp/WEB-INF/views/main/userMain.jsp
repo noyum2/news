@@ -78,6 +78,30 @@ function checkEnter(){
 		document.getElementById("inputKeyWord").value="";
 	}
 }
+function showNewsFeedByKeyWord(keyword){
+	var data = {};
+	data["keyword"]=keyword;
+	$.ajax({
+		url : '/news/signin/aa',
+		type : 'POST',
+		dataType : 'json',
+		contentType : 'application/json',
+		data : data,
+		success : function(result) {
+			makeNewsList(result);
+		},
+		error : function(request, status, error) {
+			alert("code:" + request.status + "\n"
+					+ "error:" + error);
+		}
+	});
+}
+function makeNewsList(result){
+	for (var i in result){
+		$('#newsfeed').append("<div class='newsfeed_title'>"+result[i].getNewsTitle()+"</div><div id='newsfeed_contents' class='newsfeed_contents'>"+result[i].getNewsDescription()+"</div></div><br/");
+	}
+	
+}
 </script>
 </head>
 <body style="background-color: gray; margin:0px">
@@ -90,7 +114,7 @@ function checkEnter(){
 		</div>
 		<div id="drop_down_keyWord" class="drop_down_keyWord">
 			<c:forEach items="${keywords}" var="list">
-			<li>${list.getContent()}</li>
+			<li onclick="showNewsFeedByKeyWord(${list.getContent()})">${list.getContent()}</li>
 			</c:forEach>
 			<span onclick="showInput()">+키워드추가</span><br/>
 			<div ><form action="/news/mainPage/inputKeyword" method="POST"><div id="divKeyWord"></div><input type="submit"></form></div>
@@ -112,7 +136,7 @@ function checkEnter(){
 	</div>
 </div>
 <div class="page_right">
-	<div class="newsfeed">
+	<div id="newsfeed" class="newsfeed">
 		<div class="newsfeed_title">
 			title
 		</div>
