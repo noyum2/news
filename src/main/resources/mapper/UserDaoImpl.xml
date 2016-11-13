@@ -9,7 +9,7 @@
 	Select * FROM usertable WHERE userid = #{userId}
 	</select>
 	
-	<insert id="InsertKeyWord" parameterType="Map">
-	INSERT INTO user_keyword(userseq,content) VALUE(#{userSeq},#{keyword})
+	<insert id="InsertKeyWord" parameterType="hashMap">
+	INSERT INTO user_keyword(userseq,content) VALUES (#{userSeq},#{keyword})
 	</insert>
 </mapper>

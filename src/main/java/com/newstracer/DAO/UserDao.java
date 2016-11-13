@@ -10,5 +10,5 @@ public interface UserDao {
 	
 	public User SelectUserByUserId(String userId);
 	
-	public int InsertKeyWord(Map<String,Object> keyword);
+	public int InsertKeyWord(Map<String,String> keyword);
 }

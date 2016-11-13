@@ -30,7 +30,7 @@ public class UserDaoImpl implements UserDao {
 	}
 	
 	@Override
-	public int InsertKeyWord(Map<String,Object> keyword)
+	public int InsertKeyWord(Map<String,String> keyword)
 	{
 		return template.insert(statement+"InsertKeyword", keyword);
 	}
