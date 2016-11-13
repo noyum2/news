@@ -24,19 +24,12 @@ public class SignInController {
 	UserService userService;
 
 	@RequestMapping(value = "/aa", method = RequestMethod.POST)
-	public @ResponseBody Base SignIn(@RequestBody User u, HttpSession session) {
-		System.out.println("signin");
-	
-		System.out.println(u.getUserId());
+	public @ResponseBody User SignIn(@RequestBody User u, HttpSession session) {
 		User user = userService.LoginUser(u.getUserId(), u.getUserPass());
 		if (user.getResultCode() == 200)
 			session.setAttribute("user", user);
-		
-		Base base = new Base();
-		base.setResultCode(user.getResultCode());
-		base.setResultMessage(user.getResultMessage());
 
-		return new Base();
+		return user;
 
 	}
 }

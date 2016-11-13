@@ -74,12 +74,11 @@
 									type : 'POST',
 									dataType : 'json',
 									contentType : 'application/json',
-									mimeType : 'application/json',
 									data : JSON.stringify(form),
 									success : function(result) {
 										if (result.resultCode == 200)
 											alert(result.resultMessage);
-										location.reload();
+										location.href="/news/mainPage";
 									},
 									error : function(request, status, error) {
 										alert("code:" + request.status + "\n"

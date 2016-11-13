@@ -6,6 +6,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+
 //여기까지
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,7 +19,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.newstracer.Service.NewsService;
+import com.newstracer.Service.UserService;
 import com.newstracer.VO.News;
+import com.newstracer.VO.User;
 
 /**
  * Handles requests for the application home page.
@@ -25,6 +30,10 @@ import com.newstracer.VO.News;
 public class HomeController {
 	@Autowired
 	private NewsService newsServiceImpl;
+	
+	
+	@Autowired
+	private UserService userServiceImpl;
 
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
@@ -60,5 +69,15 @@ public class HomeController {
 	@RequestMapping("/mainPage")
 	public String mainPage(){
 		return "main/userMain"; 
+	}
+	
+	@RequestMapping(value="/mainPage/inputKeyword",method=RequestMethod.POST)
+	public String InsertKeyWord(HttpServletRequest request,HttpSession session)
+	{
+		String[] keywords = request.getParameterValues("inputkeyWord");
+		User user = (User)session.getAttribute("user");
+		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
+		
+		return "redirct:/news/main/userMain";
 	}
 }

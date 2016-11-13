@@ -7,4 +7,6 @@ public interface UserService {
 	public int SignUser(User user);
 	
 	public User LoginUser(String userId,String userPass);
+	
+	public void InsertKeyWords(int userSeq,String[] keywords);
 }
