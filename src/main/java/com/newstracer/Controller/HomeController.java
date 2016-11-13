@@ -20,6 +20,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.Service.UserService;
+import com.newstracer.VO.Keyword;
 import com.newstracer.VO.News;
 import com.newstracer.VO.User;
 
@@ -67,7 +68,9 @@ public class HomeController {
 		return "home/index"; 
 	}
 	@RequestMapping("/mainPage")
-	public String mainPage(){
+	public String mainPage(Model model,HttpSession session){
+		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
+		model.addAttribute("keywords", keywords);
 		return "main/userMain"; 
 	}
 	

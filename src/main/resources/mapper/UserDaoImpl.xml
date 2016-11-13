@@ -6,10 +6,14 @@
 	</insert>
 	
 	<select id="SelectUserByUserId" parameterType="String" resultType="User">
-	Select * FROM usertable WHERE userid = #{userId}
+	SELECT * FROM usertable WHERE userid = #{userId}
 	</select>
 	
 	<insert id="InsertKeyWord" parameterType="hashMap">
 	INSERT INTO user_keyword(userseq,content) VALUES (#{userSeq},#{keyword})
 	</insert>
+	
+	<select id="SelectKeywordByUserSeq" parameterType="int" resultType="Keyword">
+	SELECT * FROM user_keyword WHERE userseq=#{userSeq}
+	</select>
 </mapper>

@@ -1,13 +1,14 @@
 package com.newstracer.Service.Impl;
 
 import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.newstracer.DAO.UserDao;
 import com.newstracer.Service.UserService;
+import com.newstracer.VO.Keyword;
 import com.newstracer.VO.User;
 
 @Service("UserServiceImpl")
@@ -57,5 +58,10 @@ public class UserServiceImpl implements UserService{
 			if((res=userdao.InsertKeyWord(map))==0)
 				continue;
 		}
+	}
+	
+	@Override
+	public List<Keyword> GetUserKeywords(int userSeq){
+		return userdao.SelectKeywordByUserSeq(userSeq);
 	}
 }
