@@ -1,7 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
@@ -49,7 +49,7 @@
 						<div class="form-group">
 							<input type="password" class="form-control" id="pw" placeholder="Password">
 						</div>
-						<button id="login" class="btn btn-default">Log in</button>
+						<input type="button" id="login" class="btn btn-default" value="Log In">
 					</form>
 				</div>
 			</c:otherwise>
@@ -79,7 +79,7 @@
 										if (result.resultCode == 200)
 										{
 											alert(result.resultMessage);
-											location.replace('/news/mainPage');
+											location.href='/news/mainPage';
 										}
 										//location.href="/news/mainPage";
 									},

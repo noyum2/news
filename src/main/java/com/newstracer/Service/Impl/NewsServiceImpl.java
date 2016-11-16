@@ -74,6 +74,20 @@ public class NewsServiceImpl implements NewsService {
 		
 		return newses;
 	}
+	
+	@Override
+	public String getNewsContent(String url){
+		try{
+			Document doc = Jsoup.connect(url).get();
+			Elements article = doc.select("div[id=articeBody]");
+			Elements modifyArticle = article.select("img").attr("class","img-responsive");
+			return article.get(0).html();
+		}
+		catch (Exception e) {
+			System.out.println(e.getMessage());
+		}
+		return null;
+	}
 
 	//서비스로 갈것
 	private News ParseHead(String urlstr) {

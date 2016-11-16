@@ -1,5 +1,7 @@
 package com.newstracer.Controller;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -9,6 +11,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.json.simple.JSONObject;
 //여기까지
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.Service.UserService;
+import com.newstracer.VO.Content;
 import com.newstracer.VO.Keyword;
 import com.newstracer.VO.News;
 import com.newstracer.VO.User;
@@ -33,8 +37,7 @@ import com.newstracer.VO.User;
 public class HomeController {
 	@Autowired
 	private NewsService newsServiceImpl;
-	
-	
+
 	@Autowired
 	private UserService userServiceImpl;
 
@@ -58,32 +61,41 @@ public class HomeController {
 	}
 
 	@RequestMapping("/index")
-	public String index(){
-		return "home/index"; 
+	public String index() {
+		return "home/index";
 	}
+
 	@RequestMapping("/mainPage")
 	public String mainPage(Model model,HttpSession session){
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
 		model.addAttribute("keywords", keywords);
 		return "main/userMain"; 
 	}
-	
-	@RequestMapping(value="/mainPage/inputKeyword",method=RequestMethod.POST)
-	public String InsertKeyWord(HttpServletRequest request,HttpSession session)
-	{
+
+	@RequestMapping(value = "/mainPage/inputKeyword", method = RequestMethod.POST)
+	public String InsertKeyWord(HttpServletRequest request, HttpSession session) {
 		String[] keywords = request.getParameterValues("keyword");
-		User user = (User)session.getAttribute("user");
+		User user = (User) session.getAttribute("user");
 		System.out.println(user.getUserSeq());
 		System.out.println(keywords.length);
 		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
-		
+
 		return "redirect:/mainPage";
 	}
-	
-	@RequestMapping(value="/mainPage/getKeyword",method=RequestMethod.POST)
-	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String,String> map)
-	{
+
+	@RequestMapping(value = "/mainPage/getKeyword", method = RequestMethod.POST)
+	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String, String> map) {
 		System.out.println(map.get("keyword"));
 		return newsServiceImpl.getNewsDescription(map.get("keyword"));
+	}
+	
+	@RequestMapping(value ="/mainPage/getContent",method=RequestMethod.POST)
+	public @ResponseBody Content GetContent(@RequestBody HashMap<String,String> map){
+		String urlstr = map.get("urlstr");
+		String htmlCode = newsServiceImpl.getNewsContent(urlstr);
+		
+		Content c = new Content();
+		c.setNewsContent(htmlCode);
+		return c;
 	}
 }
