@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.Service.UserService;
+import com.newstracer.Service.Impl.UserServiceImpl;
 import com.newstracer.VO.Content;
 import com.newstracer.VO.Keyword;
 import com.newstracer.VO.News;
@@ -41,6 +42,9 @@ public class HomeController {
 	@Autowired
 	private UserService userServiceImpl;
 
+	@Autowired
+	HttpSession session;
+	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
 
 	/**
@@ -97,5 +101,25 @@ public class HomeController {
 		Content c = new Content();
 		c.setNewsContent(htmlCode);
 		return c;
+	}
+	
+	@RequestMapping(value="/deleteKeyWord", method=RequestMethod.POST)
+	public @ResponseBody HashMap<String,String> deleteKeyWord(@RequestBody HashMap<String,String> map){
+		HashMap<String,String> resultMap = new HashMap<String,String>();
+		String retVal;
+		String keyword=map.get("keyword");
+		User user = (User)session.getAttribute("user");
+		System.out.println(user.getUserSeq()+"aaaaaaaaaaaa"+keyword);
+		String userseq=Integer.toString(user.getUserSeq());
+		map.put("content", keyword);
+		map.put("userSeq", userseq);
+		try{
+			userServiceImpl.deleteKeyWord(map);
+			resultMap.put("result", "OK");
+		}catch(Exception e){
+			retVal="NO";
+			resultMap.put("result", "NO");
+		}
+		return resultMap;
 	}
 }

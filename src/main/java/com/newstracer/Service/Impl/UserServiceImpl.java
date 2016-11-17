@@ -64,4 +64,9 @@ public class UserServiceImpl implements UserService{
 	public List<Keyword> GetUserKeywords(int userSeq){
 		return userdao.SelectKeywordByUserSeq(userSeq);
 	}
+	
+	@Override
+	public void deleteKeyWord(HashMap<String,String> map){
+		userdao.deleteKeyWord(map);
+	}
 }

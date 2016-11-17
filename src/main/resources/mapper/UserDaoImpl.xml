@@ -16,4 +16,8 @@
 	<select id="SelectKeywordByUserSeq" parameterType="int" resultType="Keyword">
 	SELECT * FROM user_keyword WHERE userseq=#{userSeq}
 	</select>
+	
+	<delete id="deleteKeyWordByHashMap" parameterType="HashMap">
+	DELETE FROM user_keyword WHERE userseq=#{userSeq} AND content=#{content}
+	</delete>
 </mapper>

@@ -14,5 +14,7 @@ public interface UserDao {
 	
 	public int InsertKeyWord(HashMap<String,String> keyword);
 	
+	public int deleteKeyWord(HashMap<String,String> map);
+	
 	public List<Keyword> SelectKeywordByUserSeq(int userSeq);
 }

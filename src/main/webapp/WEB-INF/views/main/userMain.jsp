@@ -80,10 +80,10 @@
 						</div>
 						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-lebelledby="headingOne">
 							<div class="list-group">
-								<c:forEach items="${keywords}" var="list">
-									<a href="javascript:;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a>
+								<c:forEach items="${keywords}" var="list" varStatus="status">
+									<div id="div${status.count}" style="clear:both"><div style="width:80%;float:left"><a href="javascript:;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a></div><div><button class = "btn"onclick="deleteKeyWord('${list.content}','div${status.count}')">삭제</button></div></div>
 								</c:forEach>
-								<a href="javascript:;" class="list-group-item" onclick="showInput()">+키워드 추가</a>
+								<a href="javascript:;" class="list-group-item" onclick="showInput()" style="clear:both">+키워드 추가</a>
 							</div>
 							<div style="overflow: hidden;">
 								<form action="/news/mainPage/inputKeyword" method="POST">
@@ -155,6 +155,27 @@
 				if (document.getElementById('submitButton').style.display == "none")
 					document.getElementById('submitButton').style.display = "inline";
 			}
+		}
+		
+		function deleteKeyWord(keyword,divId) {
+			
+			var data = {};
+			data["keyword"] = keyword;
+			$.ajax({
+				url : '/news/deleteKeyWord',
+				type : 'POST',
+				dataType : 'json',
+				contentType : 'application/json',
+				data : JSON.stringify(data),
+				success : function(result) {
+					if(result.result=="OK"){
+						$('#'+divId).remove();
+					}
+				},
+				error : function(request, status, error) {
+					alert("code:" + request.status + "\n" + "error:" + error);
+				}
+			});
 		}
 		function showNewsFeedByKeyWord(keyword) {
 			var data = {};

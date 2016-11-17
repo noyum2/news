@@ -42,4 +42,9 @@ public class UserDaoImpl implements UserDao {
 	{
 		return template.selectList(statement+"SelectKeywordByUserSeq", userSeq);
 	}
+	
+	@Override
+	public int deleteKeyWord(HashMap<String,String> map){
+		return template.delete(statement+"deleteKeyWordByHashMap", map);
+	}
 }
