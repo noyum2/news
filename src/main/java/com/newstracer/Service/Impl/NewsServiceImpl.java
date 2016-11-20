@@ -17,12 +17,14 @@ import org.springframework.stereotype.Service;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.VO.News;
+import com.newstracer.VO.User;
 
 @Service("NewsServiceImpl")
 public class NewsServiceImpl implements NewsService {
 	
 	@Override
-	public List<News> getNewsDescription(String keyword) {
+	public List<News> getNewsDescription(User user) {
+		String keyword = user.getCurKeyword();
 		System.out.println("==== 검색 API 호출====");
 		String clientId = "Z2_N6rKLP8h1DbAAR2nD";
 		String clientSecret = "ZCJX2BLqPw";
@@ -57,12 +59,15 @@ public class NewsServiceImpl implements NewsService {
 				}
 				System.out.println("<Link Parsing.....>\n\n");
 
-				for (int i = 1,cnt = 1; cnt%10 !=0 && i < links.size(); i++) {
+				for (int i = user.getCurPoint(),cnt=0; i < links.size(); i++) {
 					News news = ParseHead(links.get(i).text());
 					if (news != null)
 					{
 						cnt++;
+						user.setCurPoint(i+1);
 						newses.add(news);
+						if(cnt%5==0)
+							break;
 					}
 				}
 			} else {
@@ -80,7 +85,20 @@ public class NewsServiceImpl implements NewsService {
 		try{
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
-			Elements modifyArticle = article.select("img").attr("class","img-responsive");
+			if(article.size()>0)
+			{
+				Elements modifyArticle = article.select("img").attr("class","img-responsive");
+				return article.get(0).html();
+			}
+			else
+			{
+				Elements article2 = doc.select("div[id=articleBody]");
+				if(article2.size()>0)
+				{
+					Elements modifyArticle2 = article2.select("img").attr("class","img-responsive");
+					return article2.get(0).html();
+				}
+			}
 			return article.get(0).html();
 		}
 		catch (Exception e) {
@@ -95,13 +113,10 @@ public class NewsServiceImpl implements NewsService {
 		try {
 			Document doc = Jsoup.connect(urlstr).get();
 
-			Element head = doc.select("head").get(0);
-			if (head == null)
-				return null;
-
+			/*
 			boolean isTarget = false;
 
-			Elements check = head.select("script[type=text/javascript]");
+			Elements check = doc.select("script[type=text/javascript]");
 
 			for (int i = 0; i < check.size(); i++) {
 				isTarget = check.get(i).data().contains("document.domain = 'naver.com';");
@@ -110,17 +125,37 @@ public class NewsServiceImpl implements NewsService {
 			}
 			if (!isTarget)
 				return null;
-			
+			*/
 			
 			Elements title = doc.select("meta[property=og:title]");
-			news.setNewsTitle(title.get(0).attr("content"));
+			
 			Elements description = doc.select("meta[property=og:description]");
-			news.setNewsDescription(description.get(0).attr("content"));
+			
 			Elements url = doc.select("meta[property=og:url]");
-			news.setNewsUrl(url.get(0).attr("content"));
+			
+			
+			if(title.size()>0 && hasArticle(doc))
+			{
+				news.setNewsTitle(title.get(0).attr("content"));
+				news.setNewsDescription(description.get(0).attr("content"));
+				news.setNewsUrl(url.get(0).attr("content"));
+				return news;
+			}
+			else
+				return null;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return news;
+	}
+	
+	private boolean hasArticle(Document doc)
+	{
+		Elements article1 = doc.select("div[id=articeBody]");
+		Elements article2 = doc.select("div[id=articleBody]");
+		if(article1.size()>0 || article2.size()>0)
+			return true;
+		else
+			return false;
 	}
 }

@@ -27,6 +27,8 @@ public class User extends Base implements Serializable {
 	private String gender;
 	private String address;
 	private String birth;
+	private int curPoint;
+	private String curKeyword;
 	
 	public int getUserSeq() {
 		return userSeq;
@@ -81,5 +83,17 @@ public class User extends Base implements Serializable {
 	}
 	public void setBirth(String birth) {
 		this.birth = birth;
+	}
+	public int getCurPoint() {
+		return curPoint;
+	}
+	public void setCurPoint(int curPoint) {
+		this.curPoint = curPoint;
+	}
+	public String getCurKeyword() {
+		return curKeyword;
+	}
+	public void setCurKeyword(String curKeyword) {
+		this.curKeyword = curKeyword;
 	}
 }

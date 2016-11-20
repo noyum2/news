@@ -13,256 +13,134 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <title>News Tracer</title>
-<style>
-.main_left_top {
-	width: 100%;
-	background-color: white;
-}
-
-.main_left_bottom {
-	width: 100%;
-	background-color: white;
-}
-
-.inner_main_left_top {
-	background-color: #368AFF;
-}
-
-.drop_down_keyWord {
-	background-color: white;
-	display: none;
-}
-
-.drop_down_account {
-	background-color: white;
-	display: none;
-}
-
-.page_left {
-	float: left;
-	width: 30%;
-	padding-top: 40px;
-	position: fixed;
-}
-
-.page_right {
-	float: right;
-	width: 60%;
-	padding-top: 40px;
-	max-height: 100px;
-}
-
-.newsfeed {
-	width: 500px;
-	width: 100%;
-}
-
-.newsfeed_title {
-	background-color: #368AFF;
-}
-
-.newsfeed_contents {
-	background-color: white;
-}
-</style>
+<link href="resources/css/userMain.css" rel="stylesheet">
 </head>
 <body style="margin: 0px;">
 	<div class="container">
-		<c:import url="/WEB-INF/views/header&footer/header.jsp"></c:import>
-		<div class="page_left">
-			<div class="main_left_top">
-				<div class="panel-group" id="accodion" role="tablist" aria-multiselectable="true">
-					<div class="panel panel-primary">
-						<div class="panel-heading" role="tab" id="headingOne">
-							<h4 class="panel-title">
-								<a data-toggle="collapse" data-parent="#accodion" href="#collapseOne" aria-expanded="false" aria-controls="collapseOne"> + 내 키워드 보기 </a>
-							</h4>
-						</div>
-						<div id="collapseOne" class="panel-collapse collapse" role="tabpanel" aria-lebelledby="headingOne">
-							<div class="list-group">
-								<c:forEach items="${keywords}" var="list" varStatus="status">
-									<div id="div${status.count}" style="clear:both"><div style="width:80%;float:left"><a href="javascript:;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a></div><div><button class = "btn"onclick="deleteKeyWord('${list.content}','div${status.count}')">삭제</button></div></div>
-								</c:forEach>
-								<a href="javascript:;" class="list-group-item" onclick="showInput()" style="clear:both">+키워드 추가</a>
-							</div>
-							<div style="overflow: hidden;">
-								<form action="/news/mainPage/inputKeyword" method="POST">
-									<div id="divKeyWord" style="overflow: hidden;"></div>
-									<input type="submit" class="btn btn-primary btn-block" id="submitButton" value="추가하기" style="display: none;">
-								</form>
-							</div>
-							<div id="inputDiv" style="display: none;">
-								<div class="input-group">
-									<input type="text" class="form-control" id="inputKeyWord" onkeydown="checkEnter()" placeholder="키워드를 입력해주세요"> <span class="input-group-btn">
-										<button class="btn btn-default" id="addKeyWord">
-											<span class="glyphicon glyphicon-plus"></span>
-										</button>
-									</span>
+		<div id="top" style="width: 100%">
+			<c:import url="/WEB-INF/views/header&footer/header.jsp"></c:import>
+		</div>
+		<div style="width: 100%">
+			<div class="page_left">
+				<div>
+					<h1 style="color: #368AFF;">
+						<span class="glyphicon glyphicon-list"></span> <strong>MENU</strong>
+					</h1>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div class="main_left_top">
+								<div class="panel-group" id="accodion" role="tablist" aria-multiselectable="true">
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingOne">
+											<h4 class="panel-title">
+												<a data-toggle="collapse" data-parent="#accodion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne"> + 내 키워드 보기 </a>
+											</h4>
+										</div>
+										<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-lebelledby="headingOne">
+											<div class="list-group">
+												<c:forEach items="${keywords}" var="list" varStatus="status">
+													<div id="div${status.count}" style="overflow: hidden;">
+														<div style="overflow: hidden;">
+															<a href="javascript:;" style="width: 90%; float: left;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a> <span style="width: 10%; float: left;"><button class="btn btn-danger list-group-item" style="margin: 0px; width: 100%; height: 100%" onclick="deleteKeyWord('${list.content}','div${status.count}')">
+																	<span class="glyphicon glyphicon-remove"></span>
+																</button></span>
+														</div>
+													</div>
+												</c:forEach>
+												<a href="javascript:;" class="list-group-item" onclick="showInput()" style="clear: both">+키워드 추가</a>
+											</div>
+											<div style="overflow: hidden;">
+												<form action="/news/mainPage/inputKeyword" method="POST">
+													<div id="divKeyWord" style="overflow: hidden;"></div>
+													<input type="submit" class="btn btn-primary btn-block" id="submitButton" value="추가하기" style="display: none;">
+												</form>
+											</div>
+											<div id="inputDiv" style="display: none;">
+												<div class="input-group">
+													<input type="text" class="form-control" id="inputKeyWord" onkeydown="checkEnter()" placeholder="키워드를 입력해주세요"> <span class="input-group-btn">
+														<button class="btn btn-default" id="addKeyWord">
+															<span class="glyphicon glyphicon-plus"></span>
+														</button>
+													</span>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-primary">
+										<div class="panel-heading" role="tab" id="headingTwo">
+											<h4 class="panel-title">
+												<a class="collapsed" data-toggle="collapse" data-parent="#accodion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> + 내 정보 보기</a>
+											</h4>
+										</div>
+										<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+											<div class="panel-body">
+												<div id="drop_down_account" class="drop_down_account">
+													<li>윤현도</li>
+													<li>윤현도</li>
+													<li>윤현도</li>
+													<li>윤현도</li>
+													<li>윤현도</li>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="panel panel-primary">
+										<div class="panel-heading">
+											<h4 class="panel-title">
+												<a href="#top"><span class="glyphicon glyphicon-triangle-top"></span> 상단으로 돌아가기</a>
+											</h4>
+										</div>
+									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<br />
-				<div class="main_left_bottom">
-					<div onclick="showAccount()" class="inner_main_left_top">
-						<span style="color: white;"> + 내 정보 보기</span>
-					</div>
-					<div id="drop_down_account" class="drop_down_account">
-						<li>윤현도</li>
-						<li>윤현도</li>
-						<li>윤현도</li>
-						<li>윤현도</li>
-						<li>윤현도</li>
+			</div>
+			<div class="page_right">
+				<div>
+					<h1 style="color: #368AFF;">
+						<span class="glyphicon glyphicon-comment"></span> <strong>CONTENT</strong>
+					</h1>
+					<div class="panel panel-default">
+						<div class="panel-body">
+							<div id="newsfeed" class="newsfeed">
+								<div class="row">
+									<div class="col-md-6 col-md-offset-3">
+										<img src="resources/images/newsimage.jpg" class="img-responsive">
+									</div>
+								</div>
+								<h3 style="text-align: center;">
+									키워드를 등록하고, 키워드를 클릭하면 뉴스를 받아옵니다.<br /> <br />지금 바로 사용해보세요!
+								</h3>
+								<br /> <br /> <br />
+								<p style='text-align: right;'>made by 윤현도, 김진욱, 김철중</p>
+							</div>
+							<div id="newsfeed_contents" class="newsfeed_contents"></div>
+							<div id="loading" class="sk-fading-circle" style="display: none;">
+								<div class="sk-circle1 sk-circle"></div>
+								<div class="sk-circle2 sk-circle"></div>
+								<div class="sk-circle3 sk-circle"></div>
+								<div class="sk-circle4 sk-circle"></div>
+								<div class="sk-circle5 sk-circle"></div>
+								<div class="sk-circle6 sk-circle"></div>
+								<div class="sk-circle7 sk-circle"></div>
+								<div class="sk-circle8 sk-circle"></div>
+								<div class="sk-circle9 sk-circle"></div>
+								<div class="sk-circle10 sk-circle"></div>
+								<div class="sk-circle11 sk-circle"></div>
+								<div class="sk-circle12 sk-circle"></div>
+							</div>
+							<br />
+							<div id="moreButton" style="display: none;">
+								<button id="moreNews" class="btn btn-success btn-block">더 가져오기</button>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
 		</div>
-		<div class="page_right">
-			<div id="newsfeed" class="newsfeed">
-				<div id="newsfeed_contents" class="newsfeed_contents"></div>
-			</div>
-			<br />
-		</div>
 	</div>
-	<script>
-		function showKeyWord() {
-			document.getElementById("drop_down_keyWord").style.display = (document
-					.getElementById("drop_down_keyWord").style.display == "none") ? "inline"
-					: "none";
-
-		}
-		function showAccount() {
-			document.getElementById("drop_down_account").style.display = (document
-					.getElementById("drop_down_account").style.display == "none") ? "inline"
-					: "none";
-
-		}
-		function showInput() {
-			document.getElementById('inputDiv').style.display = (document
-					.getElementById('inputDiv').style.display == "none") ? "inline"
-					: "none";
-		}
-		function checkEnter() {
-			if (event.keyCode == 13) {
-				var value = document.getElementById("inputKeyWord").value;
-				$('#divKeyWord')
-						.append(
-								"<input type='text' class='form-control' style='float:left;width:50%;' name='keyword' readonly value='"
-										+ value + "'>");
-				document.getElementById("inputKeyWord").value = "";
-
-				if (document.getElementById('submitButton').style.display == "none")
-					document.getElementById('submitButton').style.display = "inline";
-			}
-		}
-		
-		function deleteKeyWord(keyword,divId) {
-			
-			var data = {};
-			data["keyword"] = keyword;
-			$.ajax({
-				url : '/news/deleteKeyWord',
-				type : 'POST',
-				dataType : 'json',
-				contentType : 'application/json',
-				data : JSON.stringify(data),
-				success : function(result) {
-					if(result.result=="OK"){
-						$('#'+divId).remove();
-					}
-				},
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n" + "error:" + error);
-				}
-			});
-		}
-		function showNewsFeedByKeyWord(keyword) {
-			var data = {};
-			data["keyword"] = keyword;
-			$.ajax({
-				url : '/news/mainPage/getKeyword',
-				type : 'POST',
-				dataType : 'json',
-				contentType : 'application/json',
-				data : JSON.stringify(data),
-				success : function(result) {
-					$('#newsfeed').empty();
-					makeNewsList(result)
-				},
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n" + "error:" + error);
-				}
-			});
-		}
-		function makeNewsList(result) {
-			for ( var i in result) {
-				$('#newsfeed')
-						.append(
-								"<div class='panel panel-info'><div class='panel-heading'>"
-										+ result[i].newsTitle
-										+ "</div><div class='panel-body'><div id='newsDescription"+i+"'>"
-										+ result[i].newsDescription
-										+ "</div><div id='articleBody"+i+"' style='display: none;'></div><div id='more' style='text-align: right; padding-right: 10px'><a href='javascript:;' onclick='showNewsDiv(\""
-										+ result[i].newsUrl + "\"," + i
-										+ ")'>더보기</a></div></div></div>");
-			}
-
-		}
-
-		function showNewsDiv(url, index) {
-			var desDiv = "#newsDescription" + index;
-			var newsDiv = "#articleBody" + index;
-			getNewsContent(url, newsDiv);
-			$(desDiv).hide();
-			$(newsDiv).show();
-		}
-		function getNewsContent(urlstr, targetDiv) {
-			var data = {};
-			data["urlstr"] = urlstr
-			$.ajax({
-				type : 'POST',
-				url : '/news/mainPage/getContent',
-				data : JSON.stringify(data),
-				dataType : 'json',
-				contentType : "application/json",
-				success : function(result) {
-					$(targetDiv).html(result.newsContent);
-				},
-				error : function(request, status, error) {
-					alert("code:" + request.status + "\n" + "error:" + error);
-				}
-			});
-
-		}
-		$(document)
-				.ready(
-						function() {
-							$('#collapseOne').collapse({
-								'toggle' : false,
-								'parent' : '#accodion'
-							});
-
-							$('#addKeyWord')
-									.click(
-											function() {
-												var value = document
-														.getElementById("inputKeyWord").value;
-												$('#divKeyWord')
-														.append(
-																"<input type='text' class='form-control' style='float:left;width:50%;' name='keyword' readonly value='"
-																		+ value
-																		+ "'>");
-												document
-														.getElementById("inputKeyWord").value = "";
-
-												if (document
-														.getElementById('submitButton').style.display == "none")
-													document
-															.getElementById('submitButton').style.display = "inline";
-											});
-
-						});
-	</script>
+	<script src="resources/js/viewjs/userMain.js"></script>
 </body>
 </html>

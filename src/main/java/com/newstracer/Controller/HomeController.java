@@ -88,9 +88,11 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/mainPage/getKeyword", method = RequestMethod.POST)
-	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String, String> map) {
-		System.out.println(map.get("keyword"));
-		return newsServiceImpl.getNewsDescription(map.get("keyword"));
+	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String, String> map, HttpSession session) {
+		User user = ((User)session.getAttribute("user"));
+		user.setCurKeyword(map.get("keyword"));
+		user.setCurPoint(0);
+		return newsServiceImpl.getNewsDescription(user);
 	}
 	
 	@RequestMapping(value ="/mainPage/getContent",method=RequestMethod.POST)
@@ -121,5 +123,13 @@ public class HomeController {
 			resultMap.put("result", "NO");
 		}
 		return resultMap;
+	}
+	
+	
+	@RequestMapping(value="/mainPage/getMoreNews", method=RequestMethod.POST)
+	public @ResponseBody List<News> getMoreNews(HttpSession session)
+	{
+		User user = (User)(session.getAttribute("user"));
+		return newsServiceImpl.getNewsDescription(user);
 	}
 }

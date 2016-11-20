@@ -27,7 +27,10 @@ public class SignInController {
 	public @ResponseBody User SignIn(@RequestBody User u, HttpSession session) {
 		User user = userService.LoginUser(u.getUserId(), u.getUserPass());
 		if (user.getResultCode() == 200)
+		{
+			user.setCurPoint(0);
 			session.setAttribute("user", user);
+		}
 
 		return user;
 
