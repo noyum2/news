@@ -1,17 +1,15 @@
 package com.newstracer.Controller;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.json.simple.JSONObject;
 //여기까지
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,7 +23,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.newstracer.Service.NewsService;
 import com.newstracer.Service.UserService;
-import com.newstracer.Service.Impl.UserServiceImpl;
 import com.newstracer.VO.Content;
 import com.newstracer.VO.Keyword;
 import com.newstracer.VO.News;
@@ -88,11 +85,15 @@ public class HomeController {
 	}
 
 	@RequestMapping(value = "/mainPage/getKeyword", method = RequestMethod.POST)
-	public @ResponseBody List<News> GetNews(@RequestBody HashMap<String, String> map, HttpSession session) {
+	public @ResponseBody HashMap<String,Object> GetNews(@RequestBody HashMap<String, String> map, HttpSession session) {
 		User user = ((User)session.getAttribute("user"));
 		user.setCurKeyword(map.get("keyword"));
 		user.setCurPoint(0);
-		return newsServiceImpl.getNewsDescription(user);
+		
+		HashMap<String,Object> retMap = new HashMap<String,Object>();
+		retMap.put("curPoint",user.getCurPoint());
+		retMap.put("newsArray", newsServiceImpl.getNewsDescription(user));
+		return retMap;
 	}
 	
 	@RequestMapping(value ="/mainPage/getContent",method=RequestMethod.POST)
@@ -127,9 +128,12 @@ public class HomeController {
 	
 	
 	@RequestMapping(value="/mainPage/getMoreNews", method=RequestMethod.POST)
-	public @ResponseBody List<News> getMoreNews(HttpSession session)
+	public @ResponseBody HashMap<String,Object> getMoreNews(HttpSession session)
 	{
 		User user = (User)(session.getAttribute("user"));
-		return newsServiceImpl.getNewsDescription(user);
+		HashMap<String,Object> retMap = new HashMap<String,Object>();
+		retMap.put("curPoint", user.getCurPoint());
+		retMap.put("newsArray", newsServiceImpl.getNewsDescription(user));
+		return retMap;
 	}
 }

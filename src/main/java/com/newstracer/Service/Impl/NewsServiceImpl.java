@@ -64,7 +64,7 @@ public class NewsServiceImpl implements NewsService {
 					if (news != null)
 					{
 						cnt++;
-						user.setCurPoint(i+1);
+						user.setCurPoint(user.getCurPoint()+1);
 						newses.add(news);
 						if(cnt%5==0)
 							break;
@@ -145,8 +145,8 @@ public class NewsServiceImpl implements NewsService {
 				return null;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
+			return null;
 		}
-		return news;
 	}
 	
 	private boolean hasArticle(Document doc)

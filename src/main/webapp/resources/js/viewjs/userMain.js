@@ -75,21 +75,23 @@ function showNewsFeedByKeyWord(keyword) {
 	});
 }
 function makeNewsList(result) {
-	for ( var i in result) {
+	var curPoint = result.curPoint;
+	for ( var a in result.newsArray) {
+		var i = Number(a) + curPoint;
 		$('#newsfeed')
 				.append(
 						"<div class='panel panel-info'><div class='panel-heading'>"
-								+ result[i].newsTitle
+								+ result.newsArray[a].newsTitle
 								+ "</div><div class='panel-body'><div id='newsDescription"
 								+ i
 								+ "'>"
-								+ result[i].newsDescription
+								+ result.newsArray[a].newsDescription
 								+ "</div><div id='articleBody"
 								+ i
 								+ "' style='display: none;'></div><div id='seeMore"
 								+ i
 								+ "' style='text-align: right; padding-right: 10px'><a href='javascript:;' onclick='showNewsDiv(\""
-								+ result[i].newsUrl
+								+ result.newsArray[a].newsUrl
 								+ "\","
 								+ i
 								+ ")'>더보기 <span class='glyphicon glyphicon-menu-down'></span></a></div><div id='close"
@@ -141,6 +143,7 @@ function getNewsContent(urlstr, targetDiv) {
 	});
 
 }
+
 $(document)
 		.ready(
 				function() {

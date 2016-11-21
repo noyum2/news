@@ -60,8 +60,6 @@
 	<script>
 		$(document).ready(
 				function() {
-
-					// 회원가입 버튼
 					$('#login').click(
 							function() {
 								var form = {
