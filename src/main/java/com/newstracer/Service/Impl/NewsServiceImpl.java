@@ -6,11 +6,18 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map.Entry;
 
+import org.bitbucket.eunjeon.seunjeon.Analyzer;
+import org.bitbucket.eunjeon.seunjeon.LNode;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
 import org.jsoup.parser.Parser;
 import org.jsoup.select.Elements;
 import org.springframework.stereotype.Service;
@@ -21,7 +28,7 @@ import com.newstracer.VO.User;
 
 @Service("NewsServiceImpl")
 public class NewsServiceImpl implements NewsService {
-	
+
 	@Override
 	public List<News> getNewsDescription(User user) {
 		String keyword = user.getCurKeyword();
@@ -59,14 +66,13 @@ public class NewsServiceImpl implements NewsService {
 				}
 				System.out.println("<Link Parsing.....>\n\n");
 
-				for (int i = user.getCurPoint(),cnt=0; i < links.size(); i++) {
+				for (int i = user.getCurPoint(), cnt = 0; i < links.size(); i++) {
 					News news = ParseHead(links.get(i).text());
-					if (news != null)
-					{
+					if (news != null) {
 						cnt++;
-						user.setCurPoint(user.getCurPoint()+1);
+						user.setCurPoint(user.getCurPoint() + 1);
 						newses.add(news);
-						if(cnt%5==0)
+						if (cnt % 5 == 0)
 							break;
 					}
 				}
@@ -76,32 +82,31 @@ public class NewsServiceImpl implements NewsService {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
+
 		return newses;
 	}
-	
+
 	@Override
-	public String getNewsContent(String url){
-		try{
+	public String getNewsContent(String url) {
+		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
-			if(article.size()>0)
-			{
-				Elements modifyArticle = article.select("img").attr("class","img-responsive");
+			if (article.size() > 0) {
+				Elements modifyArticle = article.select("img").attr("class", "img-responsive");
+				String articleStr = article.text();
+				Analy(articleStr);
 				return article.get(0).html();
-			}
-			else
-			{
+			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
-				if(article2.size()>0)
-				{
-					Elements modifyArticle2 = article2.select("img").attr("class","img-responsive");
+				if (article2.size() > 0) {
+					Elements modifyArticle2 = article2.select("img").attr("class", "img-responsive");
+					String articleStr2 = article2.text();
+					Analy(articleStr2);
 					return article2.get(0).html();
 				}
 			}
 			return article.get(0).html();
-		}
-		catch (Exception e) {
+		} catch (Exception e) {
 			System.out.println(e.getMessage());
 		}
 		return null;
@@ -114,48 +119,96 @@ public class NewsServiceImpl implements NewsService {
 			Document doc = Jsoup.connect(urlstr).get();
 
 			/*
-			boolean isTarget = false;
+			 * boolean isTarget = false;
+			 * 
+			 * Elements check = doc.select("script[type=text/javascript]");
+			 * 
+			 * for (int i = 0; i < check.size(); i++) { isTarget =
+			 * check.get(i).data().contains("document.domain = 'naver.com';");
+			 * if (isTarget) break; } if (!isTarget) return null;
+			 */
 
-			Elements check = doc.select("script[type=text/javascript]");
-
-			for (int i = 0; i < check.size(); i++) {
-				isTarget = check.get(i).data().contains("document.domain = 'naver.com';");
-				if (isTarget)
-					break;
-			}
-			if (!isTarget)
-				return null;
-			*/
-			
 			Elements title = doc.select("meta[property=og:title]");
-			
+
 			Elements description = doc.select("meta[property=og:description]");
-			
+
 			Elements url = doc.select("meta[property=og:url]");
-			
-			
-			if(title.size()>0 && hasArticle(doc))
-			{
+
+			if (title.size() > 0 && hasArticle(doc)) {
 				news.setNewsTitle(title.get(0).attr("content"));
 				news.setNewsDescription(description.get(0).attr("content"));
 				news.setNewsUrl(url.get(0).attr("content"));
 				return news;
-			}
-			else
+			} else
 				return null;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;
 		}
 	}
-	
-	private boolean hasArticle(Document doc)
-	{
+
+	private boolean hasArticle(Document doc) {
 		Elements article1 = doc.select("div[id=articeBody]");
 		Elements article2 = doc.select("div[id=articleBody]");
-		if(article1.size()>0 || article2.size()>0)
+		if (article1.size() > 0 || article2.size() > 0)
 			return true;
 		else
 			return false;
+	}
+
+	private void Analy(String str) {
+		List<LNode> result = Analyzer.parseJava(str);
+		//NNP는 사람, NNG는 명사
+		HashMap<String, Integer> NNGMap = new HashMap<String, Integer>();
+		HashMap<String, Integer> NNPMap = new HashMap<String, Integer>();
+		for (LNode node : result) {
+			String tag = node.morpheme().feature().apply(0);
+			if (tag.equals("NNG")) {
+				String key = node.morpheme().surface();
+				if (NNGMap.containsKey(key))
+					NNGMap.replace(key, NNGMap.get(key) + 1);
+				else
+					NNGMap.put(key, 1);
+			} else if (tag.equals("NNP")) {
+				String key = node.morpheme().surface();
+				if (NNPMap.containsKey(key))
+					NNPMap.replace(key, NNPMap.get(key) + 1);
+				else
+					NNPMap.put(key, 1);
+			}
+		}
+		List<String> NNPList = SortByValue(NNPMap);
+		List<String> NNGList = SortByValue(NNGMap);
+		
+		HashMap<String,Integer> resultMap = new HashMap<String,Integer>();
+		for(int i=0;i<4;i++)
+		{
+			resultMap.put(NNPList.get(i), NNPMap.get(NNPList.get(i)));
+			resultMap.put(NNGList.get(i), NNGMap.get(NNGList.get(i)));
+		}	
+		
+		System.out.println("-------결과 맵 출력-------");
+		for (Entry<String, Integer> entry : resultMap.entrySet())
+		{
+			System.out.println(entry.getKey() + " : " + entry.getValue());
+		}
+	}
+
+	@SuppressWarnings("unchecked")
+	private static List<String> SortByValue(final HashMap<String, Integer> unSortedMap) {
+		List<String> list = new ArrayList<String>();
+		list.addAll(unSortedMap.keySet());
+		Collections.sort(list, new Comparator<Object>() {
+			public int compare(Object o1, Object o2) {
+				Object v1 = unSortedMap.get(o1);
+				Object v2 = unSortedMap.get(o2);
+
+				return ((Comparable<Object>) v1).compareTo(v2);
+			}
+		});
+
+		Collections.reverse(list);
+
+		return list;
 	}
 }

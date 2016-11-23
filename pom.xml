@@ -173,6 +173,12 @@
 			<version>1.9.2</version>
 		</dependency>
 
+
+		<dependency>
+			<groupId>org.bitbucket.eunjeon</groupId>
+			<artifactId>seunjeon_2.11</artifactId>
+			<version>1.2.0</version>
+		</dependency>
 	</dependencies>
 	<build>
 		<plugins>
