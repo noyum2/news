@@ -91,27 +91,16 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public String getNewsContent(HashMap<String,Object> map) {
 		String url = map.get("urlstr").toString();
+		System.out.println(url);
 		String index = map.get("index").toString();
 		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
-			//article=article.select("strong").remove();
-			
-//			for(Element element : article.select("script")){
-//				System.out.println(element.toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//				element.remove();
-//			}
-			System.out.println(article.toString());
 			if (article.size() > 0) {
 				Modifying(article,index);
 				return article.get(0).html();
 			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
-				
-//				for(Element element : article2.select("script")){
-//					System.out.println(element.toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//					element.remove();
-//				}
 				if (article2.size() > 0) {
 					Modifying(article2,index);
 					return article2.get(0).html();
