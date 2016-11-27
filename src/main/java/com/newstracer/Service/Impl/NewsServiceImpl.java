@@ -191,10 +191,12 @@ public class NewsServiceImpl implements NewsService {
 					NNGMap.put(key, 1);
 			} else if (tag.equals("NNP")) {
 				String key = node.morpheme().surface();
-				if (NNPMap.containsKey(key))
-					NNPMap.replace(key, NNPMap.get(key) + 1);
-				else
-					NNPMap.put(key, 1);
+				if(key.length()!=1){
+					if (NNPMap.containsKey(key))
+						NNPMap.replace(key, NNPMap.get(key) + 1);
+					else
+						NNPMap.put(key, 1);
+					}
 			}
 		}
 		List<String> NNPList = SortByValue(NNPMap);

@@ -72,7 +72,7 @@
 									<div class="panel panel-primary">
 										<div class="panel-heading" role="tab" id="headingTwo">
 											<h4 class="panel-title">
-												<a class="collapsed" data-toggle="collapse" data-parent="#accodion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> + 내 정보 보기</a>
+												<a class="collapsed" data-toggle="collapse" data-parent="#accodion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo"> + 실시간 추천 검색어</a>
 											</h4>
 										</div>
 										<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
