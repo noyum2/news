@@ -68,6 +68,8 @@ public class HomeController {
 
 	@RequestMapping("/mainPage")
 	public String mainPage(Model model,HttpSession session){
+		if(session.getAttribute("user")==null)
+			return "redirect:/";
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
 		model.addAttribute("keywords", keywords);
 		return "main/userMain"; 
