@@ -89,8 +89,9 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
-	public String getNewsContent(HashMap<String,String> map) {
-		String url = map.get("urlstr");
+	public String getNewsContent(HashMap<String,Object> map) {
+		String url = map.get("urlstr").toString();
+		String index = map.get("index").toString();
 		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
@@ -102,7 +103,7 @@ public class NewsServiceImpl implements NewsService {
 //			}
 			System.out.println(article.toString());
 			if (article.size() > 0) {
-				Modifying(article);
+				Modifying(article,index);
 				return article.get(0).html();
 			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
@@ -112,7 +113,7 @@ public class NewsServiceImpl implements NewsService {
 //					element.remove();
 //				}
 				if (article2.size() > 0) {
-					Modifying(article2);
+					Modifying(article2,index);
 					return article2.get(0).html();
 				}
 			}
@@ -167,30 +168,61 @@ public class NewsServiceImpl implements NewsService {
 			return false;
 	}
 
-	private void Modifying(Elements article)
+	private void Modifying(Elements article,String index)
 	{
 		article.select("img").attr("class", "img-responsive");
 		String articleStr = article.text();
-		HashMap<String, Integer> map = Analy(articleStr);
-		
+		List<HashMap<String, Integer>> maps = Analy(articleStr);
+		HashMap<String,Integer> resultMap = maps.get(0);
+		StringBuffer modalContent = new StringBuffer();
+		modalContent.append("<p class='text-center'>");
+		modalContent.append("<h4>일반명사, 복합명사 빈도수 추출</h4><ul class='list-inline'>");
+		HashMap<String,Integer> NNGMap = maps.get(1);
+		int i=1;
+		for(String key : NNGMap.keySet())
+		{
+			modalContent.append("<li>"+key+": "+NNGMap.get(key)+"</li>");
+			/*
+			if(i%4==0)
+				modalContent.append("<br/>");
+			i++;
+			*/
+		}
+		modalContent.append("</ul></br><h4>고유명사, 인명 빈도수 추출</h4><ul class='list-inline'>");
+		HashMap<String,Integer> NNPMap = maps.get(2);
+		for(String key : NNPMap.keySet())
+		{
+			modalContent.append("<li>"+key+": "+NNPMap.get(key)+"</li>");
+		}
+		modalContent.append("</ul><br/><h4>빈도수가 높은 명사 추출</h4><ul class='list-inline'");
+		for(String key : resultMap.keySet())
+		{
+			modalContent.append("<li>"+key+": "+resultMap.get(key)+"</li>");
+		}
+		modalContent.append("</ul></p>");
 		StringBuffer sb = new StringBuffer();
-		
 		sb.append("<hr style='border-color: gray;'/>");
 		sb.append("<blockquote class='blockquote-reverse'><ul class='list-inline'><li><strong>연관 검색어 </strong></li>");
 		
-		for(String key : map.keySet()){
+		for(String key : resultMap.keySet()){
 			sb.append("<li><a class='btn btn-default' href='javascript:;' onclick='addKeywordAjax(\""+key+"\")'>"+ key +"</a></li>");
 		}
 		sb.append("</ul>");
 		sb.append("<small>연관 검색어를 클릭하면 키워드로 등록됩니다.</small>");
-		sb.append("<small>연관 검색어는 명사 빈도수 기반으로 추출됩니다.</small><button class='btn btn-primary btn-sm' style='margin-top: 0px;' data-toggle='modal' >분석 결과 보기</button></blockquote>");
+		sb.append("<small>연관 검색어는 명사 빈도수 기반으로 추출됩니다.</small><button class='btn btn-primary btn-sm' style='margin-top: 0px;' data-toggle='modal' data-target='#modal"+ index + "'>분석 결과 보기</button></blockquote>");
+		sb.append("<div class='modal fade' id='modal"+index+"' tabindex='-1' role='dialog' aria-labelledby='modal"+index+"Label' aria-hidden='true'>");
+		sb.append("<div class='modal-dialog'><div class='modal-content'><div class='modal-header'>");
+		sb.append("<button type='button' class='close' data-dismiss='modal' aria-label='Close'><span aria-hidden='true'>&times;</span></button>");
+		sb.append("<h4 class='modal-title' id='modal"+index+"Label'>분석 결과</h4></div><div class='modal-body'>");
+		sb.append(modalContent.toString());
+		sb.append("</div><div class='modal-footer'><button type='button' class='btn btn-default' data-dismiss='modal'>닫기</button></div></div></div></div>");
 		article.append(sb.toString());
 		
 	}
 	
 	
 	
-	private HashMap<String, Integer> Analy(String str) {
+	private List<HashMap<String, Integer>> Analy(String str) {
 		List<LNode> result = Analyzer.parseJava(str);
 		//NNP는 사람, NNG는 명사
 		HashMap<String, Integer> NNGMap = new HashMap<String, Integer>();
@@ -232,8 +264,12 @@ public class NewsServiceImpl implements NewsService {
 			System.out.println(entry.getKey() + " : " + entry.getValue());
 		}
 		
+		List<HashMap<String,Integer>> maps = new ArrayList<HashMap<String,Integer>>();
+		maps.add(resultMap);
+		maps.add(NNGMap);
+		maps.add(NNPMap);
 		
-		return resultMap;
+		return maps;
 	}
 
 	@SuppressWarnings("unchecked")

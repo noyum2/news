@@ -8,5 +8,5 @@ import com.newstracer.VO.User;
 
 public interface NewsService {
 	public List<News> getNewsDescription(User user);
-	public String getNewsContent(HashMap<String,String> map);
+	public String getNewsContent(HashMap<String,Object> map);
 }
