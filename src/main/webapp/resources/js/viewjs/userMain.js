@@ -106,6 +106,7 @@ function makeNewsList(result) {
 }
 
 function showNewsDiv(url, index) {
+	
 	var desDiv = "#newsDescription" + index;
 	var newsDiv = "#articleBody" + index;
 	var seeDiv = "#seeMore" + index;
