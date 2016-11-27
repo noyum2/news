@@ -97,10 +97,12 @@ public class NewsServiceImpl implements NewsService {
 			Elements article = doc.select("div[id=articeBody]");
 			//article=article.select("strong").remove();
 			
-//			for(Element element : article.select("script")){
-//				System.out.println(element.toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//				element.remove();
-//			}
+			for(Element element : article.select("script")){
+				element.remove();
+			}
+			for(Element element : article.select("div[id=layerPopup]")){
+				element.remove();
+			}
 			System.out.println(article.toString());
 			if (article.size() > 0) {
 				Modifying(article,index);
@@ -108,10 +110,12 @@ public class NewsServiceImpl implements NewsService {
 			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
 				
-//				for(Element element : article2.select("script")){
-//					System.out.println(element.toString()+"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa");
-//					element.remove();
-//				}
+				for(Element element : article2.select("script")){
+					element.remove();
+				}
+				for(Element element : article2.select("div[id=layerPopup]")){
+					element.remove();
+				}
 				if (article2.size() > 0) {
 					Modifying(article2,index);
 					return article2.get(0).html();
