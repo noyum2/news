@@ -69,7 +69,6 @@ public class NewsServiceImpl implements NewsService {
 				for (int i = 1; i < links.size(); i++) {
 					System.out.println(links.get(i).text());
 				}
-				System.out.println("<Link Parsing.....>\n\n");
 
 				for (int i = user.getCurPoint(), cnt = 0; i < links.size(); i++) {
 					News news = ParseHead(links.get(i).text());
@@ -94,11 +93,11 @@ public class NewsServiceImpl implements NewsService {
 	@Override
 	public String getNewsContent(HashMap<String,Object> map) {
 		String url = map.get("urlstr").toString();
+		System.out.println(url);
 		String index = map.get("index").toString();
 		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
-			//article=article.select("strong").remove();
 			
 			for(Element element : article.select("script")){
 				element.remove();
@@ -106,12 +105,12 @@ public class NewsServiceImpl implements NewsService {
 			for(Element element : article.select("div[id=layerPopup]")){
 				element.remove();
 			}
-			System.out.println(article.toString());
 			if (article.size() > 0) {
 				Modifying(article,index);
 				return article.get(0).html();
 			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
+
 				
 				for(Element element : article2.select("script")){
 					element.remove();
@@ -119,6 +118,7 @@ public class NewsServiceImpl implements NewsService {
 				for(Element element : article2.select("div[id=layerPopup]")){
 					element.remove();
 				}
+
 				if (article2.size() > 0) {
 					Modifying(article2,index);
 					return article2.get(0).html();
@@ -149,16 +149,6 @@ public class NewsServiceImpl implements NewsService {
 		News news = new News();
 		try {
 			Document doc = Jsoup.connect(urlstr).get();
-
-			/*
-			 * boolean isTarget = false;
-			 * 
-			 * Elements check = doc.select("script[type=text/javascript]");
-			 * 
-			 * for (int i = 0; i < check.size(); i++) { isTarget =
-			 * check.get(i).data().contains("document.domain = 'naver.com';");
-			 * if (isTarget) break; } if (!isTarget) return null;
-			 */
 
 			Elements title = doc.select("meta[property=og:title]");
 
@@ -198,15 +188,9 @@ public class NewsServiceImpl implements NewsService {
 		modalContent.append("<p class='text-center'>");
 		modalContent.append("<h4>일반명사, 복합명사 빈도수 추출</h4><ul class='list-inline'>");
 		HashMap<String,Integer> NNGMap = maps.get(1);
-		int i=1;
 		for(String key : NNGMap.keySet())
 		{
 			modalContent.append("<li>"+key+": "+NNGMap.get(key)+"</li>");
-			/*
-			if(i%4==0)
-				modalContent.append("<br/>");
-			i++;
-			*/
 		}
 		modalContent.append("</ul></br><h4>고유명사, 인명 빈도수 추출</h4><ul class='list-inline'>");
 		HashMap<String,Integer> NNPMap = maps.get(2);
@@ -276,12 +260,6 @@ public class NewsServiceImpl implements NewsService {
 		for(int i=0;i<4 && i < NNGList.size();i++)
 		{
 			resultMap.put(NNGList.get(i), NNGMap.get(NNGList.get(i)));
-		}
-		
-		System.out.println("-------결과 맵 출력-------");
-		for (Entry<String, Integer> entry : resultMap.entrySet())
-		{
-			System.out.println(entry.getKey() + " : " + entry.getValue());
 		}
 		
 		List<HashMap<String,Integer>> maps = new ArrayList<HashMap<String,Integer>>();

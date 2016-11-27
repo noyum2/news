@@ -68,7 +68,12 @@ public class HomeController {
 	}
 
 	@RequestMapping("/mainPage")
+
 	public String mainPage(Model model,HttpSession session) throws IOException{
+
+		if(session.getAttribute("user")==null)
+			return "redirect:/";
+
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
 		model.addAttribute("keywords", keywords);
 		model.addAttribute("recommandList", newsServiceImpl.getRecommand());
@@ -116,7 +121,6 @@ public class HomeController {
 	@RequestMapping(value ="/mainPage/getContent",method=RequestMethod.POST)
 	public @ResponseBody Content GetContent(@RequestBody HashMap<String,Object> map){
 		String htmlCode = newsServiceImpl.getNewsContent(map);
-		System.out.println(htmlCode);
 		Content c = new Content();
 		c.setNewsContent(htmlCode);
 		return c;
