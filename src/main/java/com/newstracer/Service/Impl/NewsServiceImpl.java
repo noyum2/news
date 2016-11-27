@@ -1,6 +1,9 @@
 package com.newstracer.Service.Impl;
 
+import static org.hamcrest.CoreMatchers.instanceOf;
+
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
@@ -126,6 +129,19 @@ public class NewsServiceImpl implements NewsService {
 			System.out.println(e.getMessage());
 		}
 		return null;
+	}
+
+	@Override
+	public ArrayList<String> getRecommand() throws IOException {
+		
+			Document doc = Jsoup.connect("http://www.naver.com").get();
+			Elements article = doc.select("ol#realrank>li:not(#lastrank)>a");
+			ArrayList<String> titleList = new ArrayList<String>();
+			for(int i=0;i<article.size();i++){
+				titleList.add(article.get(i).attr("title").toString());
+			}
+			
+		return titleList;
 	}
 
 	//서비스로 갈것

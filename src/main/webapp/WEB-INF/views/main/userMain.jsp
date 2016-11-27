@@ -77,13 +77,9 @@
 										</div>
 										<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
 											<div class="panel-body">
-												<div id="drop_down_account" class="drop_down_account">
-													<li>윤현도</li>
-													<li>윤현도</li>
-													<li>윤현도</li>
-													<li>윤현도</li>
-													<li>윤현도</li>
-												</div>
+												<c:forEach items="${recommandList}" var="list" varStatus="status">
+													<li>${list}</li>
+												</c:forEach>
 											</div>
 										</div>
 									</div>

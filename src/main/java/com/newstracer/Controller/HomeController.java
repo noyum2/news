@@ -1,5 +1,6 @@
 package com.newstracer.Controller;
 
+import java.io.IOException;
 import java.text.DateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -67,9 +68,10 @@ public class HomeController {
 	}
 
 	@RequestMapping("/mainPage")
-	public String mainPage(Model model,HttpSession session){
+	public String mainPage(Model model,HttpSession session) throws IOException{
 		List<Keyword> keywords = userServiceImpl.GetUserKeywords(((User)session.getAttribute("user")).getUserSeq());
 		model.addAttribute("keywords", keywords);
+		model.addAttribute("recommandList", newsServiceImpl.getRecommand());
 		return "main/userMain"; 
 	}
 
