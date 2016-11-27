@@ -76,9 +76,9 @@
 											</h4>
 										</div>
 										<div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
-											<div class="panel-body">
+											<div class="list-group">
 												<c:forEach items="${recommandList}" var="list" varStatus="status">
-													<li>${list}</li>
+													<a href="javascript:;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list}')">${list}</a>
 												</c:forEach>
 											</div>
 										</div>
