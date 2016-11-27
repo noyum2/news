@@ -88,7 +88,8 @@ public class NewsServiceImpl implements NewsService {
 	}
 
 	@Override
-	public String getNewsContent(String url) {
+	public String getNewsContent(HashMap<String,String> map) {
+		String url = map.get("urlstr");
 		try {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
@@ -162,14 +163,14 @@ public class NewsServiceImpl implements NewsService {
 		StringBuffer sb = new StringBuffer();
 		
 		sb.append("<hr style='border-color: gray;'/>");
-		sb.append("<blockquote class='blockquote-reverse'><ul class='list-inline'><li><strong>추천 검색어 </strong></li>");
+		sb.append("<blockquote class='blockquote-reverse'><ul class='list-inline'><li><strong>연관 검색어 </strong></li>");
 		
 		for(String key : map.keySet()){
 			sb.append("<li><a class='btn btn-default' href='javascript:;' onclick='addKeywordAjax(\""+key+"\")'>"+ key +"</a></li>");
 		}
 		sb.append("</ul>");
-		sb.append("<small>추천 검색어를 클릭하면 키워드로 등록됩니다.</small>");
-		sb.append("<small>추천 검색어는 명사 빈도수 기반으로 추출됩니다.</small><button class='btn btn-primary btn-sm' style='margin-top: 0px;'>분석 결과 보기</button></blockquote>");
+		sb.append("<small>연관 검색어를 클릭하면 키워드로 등록됩니다.</small>");
+		sb.append("<small>연관 검색어는 명사 빈도수 기반으로 추출됩니다.</small><button class='btn btn-primary btn-sm' style='margin-top: 0px;' data-toggle='modal' >분석 결과 보기</button></blockquote>");
 		article.append(sb.toString());
 		
 	}
