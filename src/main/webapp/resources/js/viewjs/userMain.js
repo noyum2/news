@@ -82,7 +82,9 @@ function makeNewsList(result) {
 				.append(
 						"<div class='panel panel-info'><div class='panel-heading'>"
 								+ result.newsArray[a].newsTitle
-								+ "</div><div class='panel-body'><div id='newsDescription"
+								+ "</div><div class='panel-body'><div id='loading"
+								+ i
+								+ "' class='sk-fading-circle' style='display: none;'><div class='sk-circle1 sk-circle'></div><div class='sk-circle2 sk-circle'></div><div class='sk-circle3 sk-circle'></div><div class='sk-circle4 sk-circle'></div><div class='sk-circle5 sk-circle'></div><div class='sk-circle6 sk-circle'></div><div class='sk-circle7 sk-circle'></div><div class='sk-circle8 sk-circle'></div><div class='sk-circle9 sk-circle'></div><div class='sk-circle10 sk-circle'></div><div class='sk-circle11 sk-circle'></div><div class='sk-circle12 sk-circle'></div></div><div id='newsDescription"
 								+ i
 								+ "'>"
 								+ result.newsArray[a].newsDescription
@@ -108,7 +110,7 @@ function showNewsDiv(url, index) {
 	var newsDiv = "#articleBody" + index;
 	var seeDiv = "#seeMore" + index;
 	var closeDiv = "#close" + index;
-	getNewsContent(url, newsDiv);
+	getNewsContent(url, index);
 	$(desDiv).hide();
 	$(newsDiv).show();
 	$(seeDiv).hide();
@@ -125,9 +127,11 @@ function closeNewsDiv(index) {
 	$(seeDiv).show();
 	$(closeDiv).hide();
 }
-function getNewsContent(urlstr, targetDiv) {
+function getNewsContent(urlstr, index) {
 	var data = {};
-	data["urlstr"] = urlstr
+	var targetDiv = "#articleBody" + index;
+	var loadDiv = "#loading" + index;
+	data["urlstr"] = urlstr;
 	$.ajax({
 		type : 'POST',
 		url : '/news/mainPage/getContent',
@@ -137,11 +141,47 @@ function getNewsContent(urlstr, targetDiv) {
 		success : function(result) {
 			$(targetDiv).html(result.newsContent);
 		},
+		beforeSend : function() {
+			$(loadDiv).show();
+		},
+		complete : function() {
+			$(loadDiv).hide();
+		},
 		error : function(request, status, error) {
 			alert("code:" + request.status + "\n" + "error:" + error);
 		}
 	});
 
+}
+
+function addKeywordAjax(keyword) {
+	var data = {};
+	data["keyword"] = keyword;
+	$
+			.ajax({
+				type : 'POST',
+				url : '/news/mainPage/inputKeywordAjax',
+				data : data,
+				dataType: "json",
+				success : function(result) {
+					console.log(result.keyword)
+					var count = Number($('#statusValue').val()) + 1;
+					$('#statusValue').val(count);
+					$('#keywordList')
+							.append(
+									"<div id='div"
+											+ count
+											+ "' style='overflow: hidden;'><div style='overflow: hidden;'> <a href='javascript:;' style='width: 90%; float: left;' class='list-group-item' onclick='showNewsFeedByKeyWord(\""
+											+ result.keyword
+											+ "\")'>"
+											+ result.keyword
+											+ "</a><span style='width: 10%; float: left;'><button class='btn btn-danger list-group-item' style='margin: 0px; width: 100%; height: 100%;' onclick='deleteKeyWord(\""
+											+ result.keyword
+											+ "\",\"div"
+											+ count
+											+ "\")'><span class='glyphicon glyphicon-remove'></span></button></span></div></div>")
+				}
+			});
 }
 
 $(document)

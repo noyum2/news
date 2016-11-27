@@ -83,6 +83,21 @@ public class HomeController {
 
 		return "redirect:/mainPage";
 	}
+	
+	
+	@RequestMapping(value ="/mainPage/inputKeywordAjax", method = RequestMethod.POST)
+	public @ResponseBody HashMap<String,String> InsertKeyWordAjax(HttpServletRequest request, HttpSession session) {
+		String[] keywords = request.getParameterValues("keyword");
+		User user = (User) session.getAttribute("user");
+		System.out.println(user.getUserSeq());
+		System.out.println(keywords.length);
+		userServiceImpl.InsertKeyWords(user.getUserSeq(), keywords);
+		
+		HashMap<String,String> map = new HashMap<String,String>();
+		map.put("keyword", keywords[0]);
+
+		return map;
+	}
 
 	@RequestMapping(value = "/mainPage/getKeyword", method = RequestMethod.POST)
 	public @ResponseBody HashMap<String,Object> GetNews(@RequestBody HashMap<String, String> map, HttpSession session) {

@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
+import java.util.Set;
 
 import org.bitbucket.eunjeon.seunjeon.Analyzer;
 import org.bitbucket.eunjeon.seunjeon.LNode;
@@ -92,16 +93,12 @@ public class NewsServiceImpl implements NewsService {
 			Document doc = Jsoup.connect(url).get();
 			Elements article = doc.select("div[id=articeBody]");
 			if (article.size() > 0) {
-				Elements modifyArticle = article.select("img").attr("class", "img-responsive");
-				String articleStr = article.text();
-				Analy(articleStr);
+				Modifying(article);
 				return article.get(0).html();
 			} else {
 				Elements article2 = doc.select("div[id=articleBody]");
 				if (article2.size() > 0) {
-					Elements modifyArticle2 = article2.select("img").attr("class", "img-responsive");
-					String articleStr2 = article2.text();
-					Analy(articleStr2);
+					Modifying(article2);
 					return article2.get(0).html();
 				}
 			}
@@ -156,7 +153,30 @@ public class NewsServiceImpl implements NewsService {
 			return false;
 	}
 
-	private void Analy(String str) {
+	private void Modifying(Elements article)
+	{
+		article.select("img").attr("class", "img-responsive");
+		String articleStr = article.text();
+		HashMap<String, Integer> map = Analy(articleStr);
+		
+		StringBuffer sb = new StringBuffer();
+		
+		sb.append("<hr style='border-color: gray;'/>");
+		sb.append("<blockquote class='blockquote-reverse'><ul class='list-inline'><li><strong>추천 검색어 </strong></li>");
+		
+		for(String key : map.keySet()){
+			sb.append("<li><a class='btn btn-default' href='javascript:;' onclick='addKeywordAjax(\""+key+"\")'>"+ key +"</a></li>");
+		}
+		sb.append("</ul>");
+		sb.append("<small>추천 검색어를 클릭하면 키워드로 등록됩니다.</small>");
+		sb.append("<small>추천 검색어는 명사 빈도수 기반으로 추출됩니다.</small><button class='btn btn-primary btn-sm' style='margin-top: 0px;'>분석 결과 보기</button></blockquote>");
+		article.append(sb.toString());
+		
+	}
+	
+	
+	
+	private HashMap<String, Integer> Analy(String str) {
 		List<LNode> result = Analyzer.parseJava(str);
 		//NNP는 사람, NNG는 명사
 		HashMap<String, Integer> NNGMap = new HashMap<String, Integer>();
@@ -181,17 +201,23 @@ public class NewsServiceImpl implements NewsService {
 		List<String> NNGList = SortByValue(NNGMap);
 		
 		HashMap<String,Integer> resultMap = new HashMap<String,Integer>();
-		for(int i=0;i<4;i++)
+		for(int i=0;i<4 && i < NNPList.size();i++)
 		{
 			resultMap.put(NNPList.get(i), NNPMap.get(NNPList.get(i)));
-			resultMap.put(NNGList.get(i), NNGMap.get(NNGList.get(i)));
 		}	
+		for(int i=0;i<4 && i < NNGList.size();i++)
+		{
+			resultMap.put(NNGList.get(i), NNGMap.get(NNGList.get(i)));
+		}
 		
 		System.out.println("-------결과 맵 출력-------");
 		for (Entry<String, Integer> entry : resultMap.entrySet())
 		{
 			System.out.println(entry.getKey() + " : " + entry.getValue());
 		}
+		
+		
+		return resultMap;
 	}
 
 	@SuppressWarnings("unchecked")

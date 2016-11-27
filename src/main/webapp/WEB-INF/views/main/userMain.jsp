@@ -38,15 +38,18 @@
 										</div>
 										<div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-lebelledby="headingOne">
 											<div class="list-group">
-												<c:forEach items="${keywords}" var="list" varStatus="status">
-													<div id="div${status.count}" style="overflow: hidden;">
-														<div style="overflow: hidden;">
-															<a href="javascript:;" style="width: 90%; float: left;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a> <span style="width: 10%; float: left;"><button class="btn btn-danger list-group-item" style="margin: 0px; width: 100%; height: 100%" onclick="deleteKeyWord('${list.content}','div${status.count}')">
-																	<span class="glyphicon glyphicon-remove"></span>
-																</button></span>
+												<div id="keywordList">
+													<c:forEach items="${keywords}" var="list" varStatus="status">
+														<div id="div${status.count}" style="overflow: hidden;">
+															<div style="overflow: hidden;">
+																<a href="javascript:;" style="width: 90%; float: left;" class="list-group-item" onclick="showNewsFeedByKeyWord('${list.content}')">${list.content}</a> <span style="width: 10%; float: left;"><button class="btn btn-danger list-group-item" style="margin: 0px; width: 100%; height: 100%" onclick="deleteKeyWord('${list.content}','div${status.count}')">
+																		<span class="glyphicon glyphicon-remove"></span>
+																	</button></span>
+															</div>
 														</div>
-													</div>
-												</c:forEach>
+													</c:forEach>
+													<input type="hidden" value="${keywords.size()}" id="statusValue">
+												</div>
 												<a href="javascript:;" class="list-group-item" onclick="showInput()" style="clear: both">+키워드 추가</a>
 											</div>
 											<div style="overflow: hidden;">
