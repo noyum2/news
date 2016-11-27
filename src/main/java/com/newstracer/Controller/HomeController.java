@@ -113,9 +113,7 @@ public class HomeController {
 	
 	@RequestMapping(value ="/mainPage/getContent",method=RequestMethod.POST)
 	public @ResponseBody Content GetContent(@RequestBody HashMap<String,String> map){
-		String urlstr = map.get("urlstr");
-		String htmlCode = newsServiceImpl.getNewsContent(urlstr);
-		
+		String htmlCode = newsServiceImpl.getNewsContent(map);
 		Content c = new Content();
 		c.setNewsContent(htmlCode);
 		return c;

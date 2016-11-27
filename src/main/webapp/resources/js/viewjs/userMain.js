@@ -132,6 +132,7 @@ function getNewsContent(urlstr, index) {
 	var targetDiv = "#articleBody" + index;
 	var loadDiv = "#loading" + index;
 	data["urlstr"] = urlstr;
+	data["index"] = index;
 	$.ajax({
 		type : 'POST',
 		url : '/news/mainPage/getContent',
